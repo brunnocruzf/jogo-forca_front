@@ -1,0 +1,62 @@
+<!-- Última versão CSS compilada e minificada -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<html>
+  <body>
+    <meta charset="utf-8">
+    <div class="container">
+      <form>
+      <div class="form-group">
+        <center><h1>Login</h1></center>
+      </div>
+      <div class="form-group">
+        <label>Usuário</label>
+        <input type="text" id="iptUser" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Senha</label>
+        <input type="password" id="iptPass" class="form-control">
+      </div>
+      <div class="form-group">
+        <div id="mensagem"></div>
+        <br>
+        <button class="btn btn-success"  onclick="send()" >Enviar</button> 
+        <button class="btn btn-danger"  type="reset">Cancelar</button>
+      </div>
+    </form>
+      
+    </div>
+  </body>
+</html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script language="javascript" type="text/javascript">
+  // 
+   function send(){
+    event.preventDefault()
+
+    var username = $('#iptUser').val();
+    var password = $('#iptPass').val();
+
+        $.ajax({
+            url: 'https://jogo-forca.herokuapp.com/adm/login',
+            type:"POST",
+        "headers": { 
+                "username":username,
+                "password":password
+            },            
+            scriptCharset: 'UTF-8',
+            crossDomain : true,
+            dataType: 'json',
+            success: function(data){
+                //var myJSON = JSON.stringify(data); 
+                if(data["sucesso"]==false){
+                    $("#mensagem").append('<div class="alert alert-danger">'+data["mensagem"]+'</div>');
+                }else if(data["sucesso"]==true){
+                    window.location.href = "dashbord.html";
+                };
+            }
+        });
+    }
+</script>
