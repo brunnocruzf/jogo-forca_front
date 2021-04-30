@@ -1,5 +1,12 @@
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
+</head>
 <!-- Última versão CSS compilada e minificada -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
 integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
 <nav class="navbar navbar-default">
@@ -31,7 +38,13 @@ integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh
   <div style="margin-right: 35%; margin-left: 35%;">
 
         <div class="panel panel-default">
-            <div class="panel-heading">Incluir Palavra</div>
+            <div class="panel-heading">Incluir Palavra
+                <a href="javascript:history.back()">
+                    <span class="badge badge-pill badge-danger" style="float: right; background-color: #d9534f !important; margin-left: 10px" data-toggle="tooltip" data-placement="top" title="Voltar" >
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    </span>
+                </a>
+            </div>
             <div class="panel-body">
                 <div  style="margin-left: 10px; margin-right: 10px; ">
                     <div  style="background-color: grey;">
@@ -42,8 +55,8 @@ integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh
                     <select  class="form-control" style="float: right; width: 45%;" id="categoria">
                     </select>
                     <br><br><br>
+                    <a href="javascript:history.back()"><span class="btn btn-danger" style="float: right; margin-left: 10px">Cancelar</span></a>
                     <span class="btn btn-success" style="float: right;">Salvar</span>
-
                 </div>
                 
             </div>
@@ -51,7 +64,9 @@ integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh
     </div>
 
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js'></script>
+  <script src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js'></script>
+
 
       <script language="javascript" type="text/javascript">
           //
@@ -108,4 +123,7 @@ integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh
               localStorage.removeItem("usuario");
               window.location.href = "../";
           }
+          $(document).ready(function(){
+              $('[data-toggle="tooltip"]').tooltip();
+          });
       </script>
