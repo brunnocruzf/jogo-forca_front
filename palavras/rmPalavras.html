@@ -1,0 +1,127 @@
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js'></script>
+</head>
+<!-- Última versão CSS compilada e minificada -->
+<link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" rel="stylesheet">
+
+<link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" rel="stylesheet">
+
+<nav class="navbar navbar-default">
+    <meta charset="utf-8">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button aria-expanded="false" class="navbar-toggle collapsed" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="../dashbord.html">Dashbord de Administração</a>
+        </div>
+        <ul class="nav navbar-nav navbar-right" style="margin-right: 2.5%;">
+            <li class="dropdown">
+                <a aria-expanded="false" aria-haspopup="true" class="dropdown-toggle" data-toggle="dropdown" href="#" id="username" role="button"></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#" onclick="logout()">Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<div style="margin-right: 35%; margin-left: 35%;">
+    <div class="panel panel-default">
+        <div class="panel-heading">Excluir Palavra
+            <a href="javascript:history.back()">
+                    <span class="badge badge-pill badge-danger" data-placement="top" data-toggle="tooltip" style="float: right; background-color: #d9534f !important; margin-left: 10px" title="Voltar">
+                        <i aria-hidden="true" class="fa fa-arrow-left"></i>
+                    </span>
+            </a>
+        </div>
+        <div class="panel-body">
+            <div style="margin-left: 10px; margin-right: 10px; ">
+               <table  class="table">
+                   <thead>
+                       <tr>
+                           <th scope="col">Palavra</th>
+                           <th scope="col">Ação</th>
+                       </tr>
+                   </thead>
+                   <tbody id="tbody">
+
+                   </tbody>
+               </table>
+            </div>
+        </div>
+    </div>
+    <script language="javascript" type="text/javascript">
+
+        function send() {
+            event.preventDefault()
+            $.ajax({
+                url: 'https://jogo-forca.herokuapp.com/categorias',
+                type: "get",
+                scriptCharset: 'UTF-8',
+                crossDomain: true,
+                dataType: 'json',
+                success: function (data) {
+                    //var myJSON = JSON.stringify(data);
+                    if (data["sucesso"] == false) {
+                        $("#mensagem").append('<div class="alert alert-danger">' + data["mensagem"] + '</div>');
+                    } else if (data["sucesso"] == true) {
+                        localStorage.setItem("usuario", username);
+                        window.location.href = "dashbord.html";
+                    }
+
+                }
+            });
+        }
+
+        $(window).on('load',
+            function () {
+                var username = localStorage.getItem("usuario");
+                if (username != null) {
+                    $("#username").text(username);
+                    $("#username").append('<div class="caret"></div>');
+
+                } else {
+                    window.location.href = "../";
+                }
+            });
+
+        $(window).on('load', function () {
+            event.preventDefault()
+            $.ajax({
+                url: 'https://jogo-forca.herokuapp.com/palavras/todas',
+                type: "get",
+                scriptCharset: 'UTF-8',
+                crossDomain: true,
+                dataType: 'json',
+                success: function (data) {
+                    //var myJSON = JSON.stringify(data);
+                    //altarr para preencher select
+
+                    data['palavras'].forEach(function (fn, scope) {
+                        $('#tbody').append('<tr><td>'+fn['descricao']+'</td><td><a href="#"><span data-placement="top" data-toggle="tooltip" title="Excluir"><i class="fa fa-trash" aria-hidden="true"></i></span></a></td></tr>');
+                    });
+                },
+            })
+        });
+
+        function logout() {
+            localStorage.removeItem("usuario");
+            window.location.href = "../";
+        }
+
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+
+
+
