@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Jogo da Forca</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!--
+Autor: Matheus Franco
+Data: 04/06/2016
+-->
+
+<!--
+Se não aparecer imagem, significa que ela não está mais no repositório.
+-->
+
+<div id="jogo" class="corpo">
+	<div class="alinhar">
+			<label class="rotulo">Categoria:</label>
+			<span id="perguntaAtual" class="pergunta"></span>
+		</div>
+		<div class="alinhar">
+		<span id="mensagem" class="msg"></span>
+	</div>
+			<div class="alinhar">
+		<button id="bntGeraJogador" class="bnt gerador" type="button" value="Gerar jogador" title="Clique aqui para gerar um jogador">Iniciar Jogo</button>
+
+	<div class="parteEscrito">
+
+	<span id="faseAtual" class="desabilitado"></span>
+
+	<span id="numTentativas" class="desabilitado"></span>
+	<div id="perguntas">
+		<div class="preenchimento">
+			<label class="rotulo">Letra: </label>
+			<input id="entradaLetra" type="text" class="entrada" size="1" maxlength="1" title="Informe uma letra" />
+			<button id="bntTentar" class="bnt" type="button" value="Tentar!" title="Clique aqui para usar sua letra">Tentar!</button>
+			<br />
+			<label class="rotulo">Resposta: </label>
+			<input id="entradaResposta" type="text" class="entrada" title="Informe a resposta" />
+			<button id="bntResponder" class="bnt" type="button" value="Responder!" title="Clique aqui para responder">Responder!</button>
+			<br />
+			<div id="palavra" class="letras">
+			<span id="letraEscolhida"></span>
+			<br />
+			<span id="letraErrada"></span>
+			<br />
+			<span id="respostaInformada"></span>
+			<br />
+			<span id="resposta"></span>
+			<br />
+			
+			<button id="bntNovoJogo" class="bnt proximo" type="button" value="Próxima Pergunta" title="Clique aqui para avançar a fase">Próxima pergunta</button>
+				
+		</div>
+	</div>
+    </div>
+			</div>
+	 <div id="forca" class="desenho"></div>
+</div>
+<!-- partial -->
+  <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script><script  src="./script.js"></script>
+
+</body>
+</html>
