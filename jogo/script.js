@@ -10,7 +10,7 @@ var acertos;
 var evento;
 
 var aluno = new Array();
-aluno[1]  = "Adriano";
+aluno[1]  = "";
 
 //Esquipe: 3 9 11 13 21 24
 var invalido = new Array();
@@ -74,13 +74,13 @@ $(document).ready(function inicio(){
 function trocaImagem(){
 	var valor;
 	switch(tentativas){
-		case 0: 
+		case 0:
 			$("#imgForca").attr("src", imagem[6]);
 			break;
-		case 1: 
+		case 1:
 			$("#imgForca").attr("src", imagem[5]);
 			break;
-		case 2: 
+		case 2:
 			$("#imgForca").attr("src", imagem[4]);
 			break;
 		case 3:
@@ -102,9 +102,9 @@ function trocaImagem(){
 $("#bntGeraJogador").click(function gerarJogador(){
 	$("#faseAtual").text("Fase " + faseAtual);
 	$("#numTentativas").text("Tentativas: " + tentativas);
-	
+
 	elementosHabilitados();
-	
+
 	$("#mensagem").text(" ");
 	/*
 	var jogadorEscolhido;
@@ -144,9 +144,9 @@ $("#bntGeraJogador").click(function gerarJogador(){
 $("#entradaLetra").keyup(function informaLetra(){
 	entrada = $("#entradaLetra").val().toUpperCase();
 	$("#entradaResposta").val(null);
-	
+
 	localStorage.setItem("entradaLetra", entrada);
-	
+
 });
 
 
@@ -160,19 +160,19 @@ $("#bntTentar").click(function tentarLetra(){
 		if(entradaLetra == null || entradaLetra == "" || entradaLetra == "undefined"){
 			//entrada = null;
 			$("#mensagem").removeClass("sucesso");
-			$("#mensagem").text(msg[0]).show().addClass("erro");	
+			$("#mensagem").text(msg[0]).show().addClass("erro");
 		}else{
 			if(letraInformada.indexOf(entrada) < 0){
 				letraInformada.push(entrada);
 				todasLetras.push(entrada);
 				$("#letraEscolhida").text("Letras informadas: " + todasLetras.join());
-				
+
 				localStorage.setItem("todasLetras", todasLetras.join());
-				
-				preencheLacuna();	
+
+				preencheLacuna();
 			}else{
 				$("#mensagem").removeClass("sucesso");
-				$("#mensagem").text(msg[7]).show().addClass("erro");	
+				$("#mensagem").text(msg[7]).show().addClass("erro");
 			}
 		}
 	}
@@ -184,14 +184,14 @@ $("#bntTentar").click(function tentarLetra(){
 $("#entradaResposta").keyup(function informaResposta(){
 	entrada = $("#entradaResposta").val().toUpperCase();
 	$("#entradaLetra").val(null);
-	
+
 	localStorage.setItem("entradaResposta", entrada);
 });
 
 $("#bntResponder").click(function responder(){
 	var entradaResposta = $("#entradaResposta").val();;
 	$("#mensagem").text(" ").show();
-	
+
 	if(entrada == null){
 		$("#mensagem").removeClass("sucesso");
 		$("#mensagem").text(msg[5]).show().addClass("erro");
@@ -199,7 +199,7 @@ $("#bntResponder").click(function responder(){
 			if(entradaResposta == null || entradaResposta == "" || entradaResposta == "undefined"){
 			//entrada = null;
 			$("#mensagem").removeClass("sucesso");
-			$("#mensagem").text(msg[5]).show().addClass("erro");	
+			$("#mensagem").text(msg[5]).show().addClass("erro");
 		}else{
 			$("#respostaInformada").text("Resposta Informada: " + entrada).show();
 			fase();
@@ -215,34 +215,34 @@ $("#bntResponder").click(function responder(){
 function fase(){
 	perguntaAtual = pergunta[faseAtual];
 	respostaAtual = resposta[faseAtual].toUpperCase();
-	
+
 	localStorage.setItem("perguntaAtual", perguntaAtual);
 	localStorage.setItem("respostaAtual", respostaAtual);
-	
+
 	$("#perguntaAtual").text(perguntaAtual);
-	
+
 	if(entrada == respostaAtual){
 		ganhou = true;
 		perdeu = false;
 		preencheLacuna();
 		vitoria();
-	
+
 	}else{
 		perdeu = true;
 		$("#mensagem").removeClass("sucesso");
 		$("#mensagem").text(msg[2]).addClass("erro");
-		$("#numTentativas").text("Tentativas: " + tentativas); 
+		$("#numTentativas").text("Tentativas: " + tentativas);
 	}
-	
+
 }
 
 function montaPalavra(){
 	respostaAtual = resposta[faseAtual].toUpperCase();
 	var qntLetras = respostaAtual.length;
-	
+
 	for(var i=0; i<qntLetras; i++){
-		
-	$("#palavra").append('<input id="l' + i + '" class="letra" type="text" disabled="disabled" size="1" />');	
+
+		$("#palavra").append('<input id="l' + i + '" class="letra" type="text" disabled="disabled" size="1" />');
 		if(respostaAtual.charAt(i) == "-"){
 			$("#l"+i).val("-");
 		}else if(respostaAtual.charAt(i) == " "){
@@ -259,29 +259,29 @@ function preencheLacuna(){
 	var qntLetras = respostaAtual.length;
 	var letraInformada = respostaAtual.search(entrada);
 
-	if(ganhou){	
-		for(var i=0; i<=qntLetras; i++){	
+	if(ganhou){
+		for(var i=0; i<=qntLetras; i++){
 			$("#l"+i).val(respostaAtual.charAt(i));
-		}	
+		}
 	}else{
 		var acertoLetra = 0;
 		if(letraInformada > -1){
 			acertos++;
-			
+
 			if(acertos >= qntLetras){
 				vitoria();
-			}	
-		
-			for(var i=0; i<=qntLetras; i++){	
+			}
+
+			for(var i=0; i<=qntLetras; i++){
 				if(entrada == respostaAtual.charAt(i)){
 					$("#l"+i).val(respostaAtual.charAt(letraInformada));
 					acertoLetra++;
 				}
-			}	
+			}
 			acertos = acertos + acertoLetra -1;
 			//$("#l"+letraInformada).val(respostaAtual.charAt(letraInformada));
 		}else{
-			letraErrada.push(entrada);	
+			letraErrada.push(entrada);
 			$("#letraErrada").text("Letras Erradas: " + letraErrada.join());
 			tentativas--;
 			trocaImagem();
@@ -315,9 +315,9 @@ function gameOver(){
 	var qntLetras = respostaAtual.length;
 	elementosDesabilitados();
 	faseAtual++;
-	
+
 	localStorage.setItem("faseAtual", faseAtual);
-	
+
 	perguntaAtual = pergunta[faseAtual];
 	perdeu = true;
 	$("#mensagem").removeClass("sucesso");
@@ -331,9 +331,9 @@ function vitoria(){
 	$("#mensagem").removeClass("erro");
 	$("#mensagem").text(msg[1]).addClass("sucesso").show();
 	faseAtual++;
-	
+
 	localStorage.setItem("faseAtual", faseAtual);
-	
+
 	tentativas = maxTentativas;
 	elementosDesabilitados();
 	perguntaAtual = pergunta[faseAtual];
@@ -343,59 +343,17 @@ function vitoria(){
 }
 
 $("#bntNovoJogo").click(function zeraCampos(){
-	fim();
-	$("#faseAtual").text("Fase " + faseAtual);
-	$("#numTentativas").text("Tentativas: " + tentativas);
-	$("#resposta").text("A resposta correta é: " + respostaAtual).show();
-	$("#perguntaAtual").text("Questão: " + perguntaAtual);
-	
-	var qntLetras = respostaAtual.length;
-	for(var i=0; i<=qntLetras; i++){	
-		$("#l"+i).remove();
-	}
-	$("#bntGeraJogador").removeAttr("disabled", "disabled");
-	$("#respostaInformada").text(" ");
-	$("#letraErrada").text(" ");
-	$("#letraEscolhida").text(" ");
-	$("#jogadorGerado").text(" ");
-	$("#resposta").text(" ").hide();
-	$("#respostaInformada").text(" ").hide();
-	$("#entradaResposta").val(null);
-	$("#entradaLetra").val(null);
-	$("#perguntas").hide();
-	$("#mensagem").hide();
-	
-	$("#bntNovoJogo").hide();
-	
-	acertos = 0;
-	//entrada = null;
-	tentativas = maxTentativas;
-	ganhou = false;
-	perdeu = false;	
-	letraInformada = new Array();
-	letraErrada = new Array();
-	todasLetras = new Array();
-	
-	$("#bntNovoJogo").hide();
-	
-	$("#imgForca").attr("src", imagem[0]);
-	montaPalavra();
+	window.location.reload();
 });
 
 function fim(){
-	if(perguntaAtual == "undefined"
-		|| perguntaAtual == ""
-		|| perguntaAtual == null){
-		
-		$("html").append("<h1>Isso é tudo pessoal!</h1>");
-		$("#jogo").remove();
-	}
+
 }
 
 function memento(){
-	
+
 	var passo = localStorage.getItem("passo");
-	
+
 	if(passo == null || passo == "undefined"
 		|| passo == ""){
 		evento = 0;
