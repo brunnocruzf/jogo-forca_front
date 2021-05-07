@@ -36,7 +36,7 @@
 </nav>
 <div style="margin-right: 35%; margin-left: 35%;">
     <div class="panel panel-default">
-        <div class="panel-heading">TITULO
+        <div class="panel-heading">Editar Grupo
             <a href="javascript:history.back()">
                     <span class="badge badge-pill badge-danger" style="float: right; background-color: #d9534f !important; margin-left: 10px" data-toggle="tooltip" data-placement="top" title="Voltar">
                         <i class="fa fa-arrow-left" aria-hidden="true"></i>
@@ -44,31 +44,54 @@
             </a>
         </div>
         <div class="panel-body">
-
+            <div id="categoria">
+            </div>
+            <a href="javascript:history.back()"><span class="btn btn-danger" style="float: right; margin-left: 10px">Cancelar</span></a>
+            <span class="btn btn-success" id="salvar" style="float: right;">Salvar</span>
         </div>
     </div>
     <script language="javascript" type="text/javascript">
 
-        function send() {
-            event.preventDefault()
-            $.ajax({
-                url: 'https://jogo-forca.herokuapp.com/categorias',
-                type: "get",
-                scriptCharset: 'UTF-8',
-                crossDomain: true,
-                dataType: 'json',
-                success: function (data) {
-                    //var myJSON = JSON.stringify(data);
-                    if (data["sucesso"] == false) {
-                        $("#mensagem").append('<div class="alert alert-danger">' + data["mensagem"] + '</div>');
-                    } else if (data["sucesso"] == true) {
-                        localStorage.setItem("usuario", username);
-                        window.location.href = "dashbord.html";
-                    }
-                    ;
+
+        $('#salvar').on('click', function () {
+            var id = document.querySelectorAll("table tr td span");
+            var val = $('input');
+
+
+            var palav = new Array();
+
+
+            var categorias = {};
+
+            for (i = 0; i < id.length; i++) {
+                for (i = 0; i < val.length; i++) {
+                    palav.push({'id': id[i].innerHTML, 'descricao': val[i].value});
                 }
+            }
+            categorias = palav;
+
+            //var palavras;
+            var edit = {categorias};
+            console.log(JSON.stringify(edit));
+            //esperando correção do bug para ajustar
+
+            $.ajax({
+                contentType: 'application/json',
+                data: JSON.stringify(edit),
+                dataType: 'json',
+                success: function(data){
+                    alert("Salvo com sucesso.");
+                    document.location.reload(true);
+                },
+                error: function(){
+                    alert("Erro ao salvar.");
+                },
+                processData: false,
+                type: 'POST',
+                url: 'https://jogo-forca.herokuapp.com/categorias'
             });
-        }
+        })
+
 
         $(window).on('load',
             function () {
@@ -82,8 +105,11 @@
                 }
             });
 
+        function habilita(id) {
+            $('#' + id + 'cat').prop("disabled", false);
+        }
+
         $(window).on('load', function () {
-            event.preventDefault()
             $.ajax({
                 url: 'https://jogo-forca.herokuapp.com/categorias',
                 type: "get",
@@ -95,7 +121,13 @@
                     //altarr para preencher select
 
                     data['categorias'].forEach(function (fn, scope) {
-                        $('#categoria').append('<option value="' + fn['id'] + '">' + fn['descricao'] + '</option>');
+                        $('#categoria').append('<table><tr>' +
+                            '<td hidden id="' + fn['id'] + 'id"><span >' + fn['id'] + '</span></td>' +
+                            '<td><input onclick="habilita('+fn['id']+')" class="form-control" id="' + fn['id'] + 'cat" disabled value="' + fn['descricao'] + '"></td>' +
+                            '<td><a href="#"><div data-placement="top" data-toggle="tooltip" onclick="habilita(' + fn['id'] + ')" title="Excluir">' +
+                            '<i class="fa fa-pen-square" aria-hidden="true"></i></div></a>' +
+                            '</td>' +
+                            '</tr><table>');
                     });
                 },
             })
