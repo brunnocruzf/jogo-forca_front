@@ -36,7 +36,7 @@ var pergunta = new Array();
 pergunta[1] = "cor" ;
 
 var resposta = new Array();
-resposta[1] = "brunno";
+resposta[1] = "amarelo";
 
 
 var imagem = new Array();
