@@ -74,10 +74,8 @@
                 alert("Palavra inválida");
                 return false;
             }
-
             return false;
         }
-
 
         function send() {
             event.preventDefault()
@@ -99,7 +97,6 @@
                 }
             });
         }
-
         $(window).on('load',
             function () {
                 var username = localStorage.getItem("usuario");
@@ -111,7 +108,6 @@
                     window.location.href = "../";
                 }
             });
-
         $(window).on('load', function () {
             event.preventDefault()
             $.ajax({
