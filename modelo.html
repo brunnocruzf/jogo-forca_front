@@ -1,0 +1,112 @@
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js'></script>
+</head>
+<!-- Última versão CSS compilada e minificada -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<nav class="navbar navbar-default">
+  <meta charset="utf-8">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../dashbord.html">Dashbord de Administração</a>
+    </div>
+    <ul class="nav navbar-nav navbar-right" style="margin-right: 2.5%;">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="username"></a>
+        <ul class="dropdown-menu">
+          <li><a href="#" onclick="logout()">Logout</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+<div style="margin-right: 35%; margin-left: 35%;">
+  <div class="panel panel-default">
+    <div class="panel-heading">TITULO
+      <a href="javascript:history.back()">
+                    <span class="badge badge-pill badge-danger" style="float: right; background-color: #d9534f !important; margin-left: 10px" data-toggle="tooltip" data-placement="top" title="Voltar">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    </span>
+      </a>
+    </div>
+    <div class="panel-body">
+
+    </div>
+  </div>
+  <script language="javascript" type="text/javascript">
+
+    function send() {
+      event.preventDefault()
+      $.ajax({
+        url: 'https://jogo-forca.herokuapp.com/categorias',
+        type: "get",
+        scriptCharset: 'UTF-8',
+        crossDomain: true,
+        dataType: 'json',
+        success: function (data) {
+          //var myJSON = JSON.stringify(data);
+          if (data["sucesso"] == false) {
+            $("#mensagem").append('<div class="alert alert-danger">' + data["mensagem"] + '</div>');
+          } else if (data["sucesso"] == true) {
+            localStorage.setItem("usuario", username);
+            window.location.href = "dashbord.html";
+          }
+          ;
+        }
+      });
+    }
+
+    $(window).on('load',
+            function () {
+              var username = localStorage.getItem("usuario");
+              if (username != null) {
+                $("#username").text(username);
+                $("#username").append('<div class="caret"></div>');
+
+              } else {
+                window.location.href = "../";
+              }
+            });
+
+    $(window).on('load', function () {
+      event.preventDefault()
+      $.ajax({
+        url: 'https://jogo-forca.herokuapp.com/categorias',
+        type: "get",
+        scriptCharset: 'UTF-8',
+        crossDomain: true,
+        dataType: 'json',
+        success: function (data) {
+          //var myJSON = JSON.stringify(data);
+          //altarr para preencher select
+
+          data['categorias'].forEach(function (fn, scope) {
+            $('#categoria').append('<option value="' + fn['id'] + '">' + fn['descricao'] + '</option>');
+          });
+        },
+      })
+    });
+
+    function logout() {
+      localStorage.removeItem("usuario");
+      window.location.href = "../";
+    }
+
+    $(document).ready(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  </script>
