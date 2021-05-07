@@ -112,7 +112,7 @@
                         $('#tbody').append('<tr>' +
                             '<td hidden id="' + fn['id'] + 'id"><span hidden>' + fn['id'] + '</span></td>' +
                             '<td id="' + fn['id'] + 'palavra"><input class="form-control" id="' + fn['id'] + 'palavraSPN" disabled value="' + fn['descricao'] + '"></td>' +
-                            '<td id="' + fn['id'] + 'categoria"><select disabled class="form-control" id="' + fn['id'] + 'categoriaSPN"><option>' +
+                            '<td id="' + fn['id'] + 'categoria"><select disabled class="form-control" class="select" id="' + fn['id'] + 'categoriaSPN"><option value="'+fn['categoria']['id']+'">' +
                             fn['categoria']['descricao'] +
                             '</option></select></td>' +
                             '<td><a href="#"><div data-placement="top" data-toggle="tooltip" onclick="habilita(' + fn['id'] + ')" title="Excluir">' +
@@ -127,27 +127,52 @@
         $('#salvar').on('click', function () {
 
             var valores = document.querySelectorAll("table tr td select option:checked");
+            var idcat = $('option:checked');
             var val = $('input');
             var id = document.querySelectorAll("table tr td span");
+           // var idcat = document.querySelectorAll("table tr td p");
 
 
-          var idpalavra = new Array();
-          var palavras = new Array();
-          var catpalavras = new Array();
+          var idpalav;
+          var catpalav;
+          var descpalav;
+          var palav = new Array();
+
+
+          var palavras = {};
 
           for (i = 0; i < id.length; i++) {
                   for (i = 0; i < val.length; i++) {
                       for (i = 0; i < valores.length; i++) {
-                        idpalavra.push(id[i].innerHTML);
-                        palavras.push(val[i].value);
-                        catpalavras.push(valores[i].innerHTML);
+                          for (i = 0; i < idcat.length; i++) {
+                              palav.push({'id': id[i].innerHTML, 'descricao': val[i].value, 'categoria': {"id": idcat[i].value, "descricao": valores[i].innerHTML}});
+                          }
                       }
                   }
               }
+            palavras = palav;
 
-          var palavra = {idpalavra, palavras, catpalavras};
+          //var palavras;
+                var edit = {palavras};
+                console.log(JSON.stringify(edit));
 
-              console.log(JSON.stringify(palavra));
+/*
+            $.ajax({
+                contentType: 'application/json',
+                data: JSON.stringify(edit),
+                dataType: 'json',
+                success: function(data){
+                    console.log("Salvo com sucesso.");
+                },
+                error: function(){
+                    console.log("Erro ao salvar.");
+                },
+                processData: false,
+                type: 'POST',
+                url: 'https://jogo-forca.herokuapp.com/palavras'
+            });
+
+            document.location.reload(true);*/
         })
 
         function habilita(id) {
@@ -176,7 +201,7 @@
                     //altarr para preencher select
 
                     data['categorias'].forEach(function (fn, scope) {
-                        $('#' + id + 'categoriaSPN').append('<option value="' + fn['id'] + '">' + fn['descricao'] + '</option>');
+                        $('#' + id + 'categoriaSPN').append('<option dado="'+ fn['id'] +'" value="' + fn['id'] + '">' + fn['descricao'] + '</option>');
                     });
                 },
             })
