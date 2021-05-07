@@ -1,0 +1,108 @@
+@charset "utf-8";
+body{
+	font-size: 13pt;
+}
+.habilitado{
+	display:inline-block;
+}
+.desabilitado{
+	display: none;
+}
+.msg{
+	font-weight: bold;
+	text-align: center;
+	text-transform: uppercase;
+	font-size: 14pt;
+}
+.erro{
+	color: #FF0000;	
+}
+.sucesso{
+	color: #0000FF;
+}
+.rotulo{
+	font-weight: bold;
+}
+.letra{
+	border: #000 1px solid;
+}
+input[type="text"],
+button{
+	height: 50px;
+	font-size: 100%;
+	border: #000 1px solid;
+	margin-bottom: 10px;
+}
+.corpo{
+	border: #000 1px solid;
+	width: 90%;
+	margin: auto;
+	padding-bottom: 150px;
+	min-height: 400px;
+	height: auto;
+	/*
+	padding: 50px;
+	*/
+}
+span{
+	margin: 4px;
+}
+
+.parteEscrito{
+	float: left;
+}
+.desenho{
+	min-width: 300px;
+	width: auto;
+	float: right;
+}
+.bnt[disabled="disabled"]:hover{
+	cursor: auto;
+}
+.bnt:hover{
+	cursor: pointer;
+}
+.entrada:focus{
+	background-color: #eee;
+}
+.letras,
+letra{
+	display: block;
+}
+.letras{
+	margin-left: 50px;
+}
+.alinhar{
+	font-size: 16pt;
+	text-align: center;
+}
+.alinhar .rotulo{
+	display: block;
+}
+.pergunta{
+	text-transform: uppercase;
+	font-size: 18pt;
+	font-weight: bold;
+}
+.preenchimento{
+	font-size: 16pt;
+}
+.preenchimento .rotulo{
+	text-transform: uppercase;
+}
+.gerador{
+	width: 100%;
+	text-transform: uppercase;
+	text-align: center;
+}
+.selecionado{
+	text-transform: uppercase;
+	font-size: 20pt;
+	font-weight: bold;
+}
+.invisivel{
+	visibility: hidden;
+}
+.proximo{
+	display: block;
+}
