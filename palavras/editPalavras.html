@@ -156,23 +156,22 @@
                 var edit = {palavras};
                 console.log(JSON.stringify(edit));
             //esperando correção do bug para ajustar
-/*
+
             $.ajax({
                 contentType: 'application/json',
                 data: JSON.stringify(edit),
                 dataType: 'json',
                 success: function(data){
-                    console.log("Salvo com sucesso.");
+                    alert("Salvo com sucesso.");
+                    document.location.reload(true);
                 },
                 error: function(){
-                    console.log("Erro ao salvar.");
+                    alert("Erro ao salvar.");
                 },
                 processData: false,
                 type: 'POST',
                 url: 'https://jogo-forca.herokuapp.com/palavras'
             });
-
-            document.location.reload(true);*/
         })
 
         function habilita(id) {

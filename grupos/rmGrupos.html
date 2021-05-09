@@ -44,8 +44,18 @@
       </a>
     </div>
     <div class="panel-body">
-      <div id="categoria">
-      </div>
+      <div style="margin-left: 50px; margin-right: 50px; ">
+      <table class="table">
+        <thead>
+        <tr>
+          <th scope="col">Nome do grupo</th>
+          <th scope="col">Ação</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+
+        </tbody>
+      </table>
       <a href="javascript:history.back()"><span class="btn btn-danger" style="float: right; margin-left: 10px">Cancelar</span></a>
       <span class="btn btn-success" id="salvar" style="float: right;">Salvar</span>
     </div>
@@ -121,13 +131,13 @@
           //altarr para preencher select
 
           data['categorias'].forEach(function (fn, scope) {
-            $('#categoria').append('<table><tr id="' + fn['id'] + 'cat">' +
+            $('#tbody').append('<tr id="' + fn['id'] + 'cat">' +
                     '<td hidden id="' + fn['id'] + 'id"><span >' + fn['id'] + '</span></td>' +
                     '<td><input onclick="habilita('+fn['id']+')" class="form-control"  disabled value="' + fn['descricao'] + '"></td>' +
                     '<td><a href="#"><div data-placement="top" data-toggle="tooltip" onclick="excluir(' + fn['id'] + ')" title="Excluir">' +
                     '<i class="fa fa-trash" aria-hidden="true"></i></div></a>' +
                     '</td>' +
-                    '</tr><table>');
+                    '</tr>');
           });
         },
       })

@@ -44,7 +44,7 @@
             </a>
         </div>
         <div class="panel-body">
-            <div style="margin-left: 10px; margin-right: 10px; ">
+            <div style="margin-left: 50px; margin-right: 50px; ">
                 <table class="table">
                     <thead>
                     <tr>
@@ -56,9 +56,9 @@
 
                     </tbody>
                 </table>
+                <a href="javascript:history.back()"><span class="btn btn-danger" style="float: right; margin-left: 10px">Cancelar</span></a>
+                <span class="btn btn-success" id="salvar" style="float: right;">Salvar</span>
             </div>
-            <a href="javascript:history.back()"><span class="btn btn-danger" style="float: right; margin-left: 10px">Cancelar</span></a>
-            <span class="btn btn-success" id="salvar" style="float: right;">Salvar</span>
         </div>
     </div>
     <script language="javascript" type="text/javascript">
@@ -97,7 +97,7 @@
                 },
                 processData: false,
                 type: 'POST',
-                url: 'https://jogo-forca.herokuapp.com/categorias'
+                url: 'https://jogo-forca.herokuapp.com/palavras'
             });
         })
 
