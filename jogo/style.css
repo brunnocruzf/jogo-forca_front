@@ -3,6 +3,9 @@ body{
 	font-size: 30pt;
 	font-family: "Source Sans Pro";
 }
+.modal-backdrop.show {
+	opacity: 0.2;
+}
 #bntNovoJogo{
 	margin-top: 0;
 	height: 50px;
