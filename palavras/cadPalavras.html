@@ -50,13 +50,17 @@
                     <div style="float: right;">Categoria</div>
                 </div>
                 <br>
-                <input type="text" class="form-control" id="palavra" style="float: left;width: 45%;"></input>
-                <select class="form-control" style="float: right; width: 45%;" id="categoria">
+                <table id="table" width="100%">
+                    <tr><td><span></span></td>
+                <td><input type="text" class="form-control" id="palavra" style="float: left;width: 95%;"></input></td>
+                <td> <select class="form-control" style="float: right; width: 95%;" id="categoria">
                     <option value="#" selected>Selecione</option>
-                </select>
-                <br><br><br>
+                </select></td>
+                    </tr>
+                </table>
+                <br>
                 <a href="javascript:history.back()"><span class="btn btn-danger" style="float: right; margin-left: 10px">Cancelar</span></a>
-                <span class="btn btn-success" onclick="valida()" style="float: right;">Salvar</span>
+                <span class="btn btn-success" id="salvar" style="float: right;">Salvar</span>
             </div>
         </div>
     </div>
@@ -109,7 +113,35 @@
                 }
             });
         $(window).on('load', function () {
-            event.preventDefault()
+            select();
+            event.preventDefault();
+            $.ajax({
+                url: 'https://jogo-forca.herokuapp.com/palavras/todas',
+                type: "get",
+                scriptCharset: 'UTF-8',
+                crossDomain: true,
+                dataType: 'json',
+                success: function (data) {
+                    //var myJSON = JSON.stringify(data);
+                    //altarr para preencher select
+
+                    data['palavras'].forEach(function (fn, scope) {
+                        $('#table').append('<tr hidden>' +
+                            '<td = id="' + fn['id'] + 'id"><span >' + fn['id'] + '</span></td>' +
+                            '<td id="' + fn['id'] + 'palavra"><input class="form-control" id="' + fn['id'] + 'palavraSPN" disabled value="' + fn['descricao'] + '"></td>' +
+                            '<td id="' + fn['id'] + 'categoria"><select disabled class="form-control" class="select" id="' + fn['id'] + 'categoriaSPN"><option value="'+fn['categoria']['id']+'">' +
+                            fn['categoria']['descricao'] +
+                            '</option></select></td>' +
+                            '</tr>');
+                    });
+                },
+            })
+
+        });
+
+
+
+        function select() {
             $.ajax({
                 url: 'https://jogo-forca.herokuapp.com/categorias',
                 type: "get",
@@ -121,11 +153,62 @@
                     //altarr para preencher select
 
                     data['categorias'].forEach(function (fn, scope) {
-                        $('#categoria').append('<option value="' + fn['id'] + '">' + fn['descricao'] + '</option>');
+                        $('#categoria').append('<option dado="'+ fn['id'] +'" value="' + fn['id'] + '">' + fn['descricao'] + '</option>');
                     });
                 },
             })
-        });
+        }
+
+        $('#salvar').on('click', function () {
+
+            var valores = document.querySelectorAll("table tr td select option:checked");
+            var idcat = $('option:checked');
+            var val = $('input');
+            var id = document.querySelectorAll("table tr td span");
+            // var idcat = document.querySelectorAll("table tr td p");
+
+
+            var idpalav;
+            var catpalav;
+            var descpalav;
+            var palav = new Array();
+
+
+            var palavras = {};
+
+            for (i = 0; i < id.length; i++) {
+                for (i = 0; i < val.length; i++) {
+                    for (i = 0; i < valores.length; i++) {
+                        for (i = 0; i < idcat.length; i++) {
+                            palav.push({'id': id[i].innerHTML, 'descricao': val[i].value, 'categoria': {"id": idcat[i].value, "descricao": valores[i].innerHTML}});
+                        }
+                    }
+                }
+            }
+            palavras = palav;
+
+            //var palavras;
+            var edit = {palavras};
+            console.log(JSON.stringify(edit));
+            //esperando correção do bug para ajustar
+
+            $.ajax({
+                contentType: 'application/json',
+                data: JSON.stringify(edit),
+                dataType: 'json',
+                success: function(data){
+                    alert("Salvo com sucesso.");
+                    document.location.reload(true);
+                },
+                error: function(){
+                    alert("Erro ao salvar.");
+                },
+                processData: false,
+                type: 'POST',
+                url: 'https://jogo-forca.herokuapp.com/palavras'
+            });
+        })
+
 
         function logout() {
             localStorage.removeItem("usuario");
