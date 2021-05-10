@@ -457,7 +457,7 @@ function vitoria(){
 				}
 			}
 			if (pontuacao > pontos){
-				$('#incRanking').append('<input type="text" width="20%" id="nomeRanking"><span onclick="salvaRanking('+pontuacao+')" class="bnt btn-success">Salvar</span>');
+				$('#incRanking').append('<input type="text" class="form-control" id="nomeRanking"><span style="width: 20px !important; height: 10px !important; font-size: 16px;" onclick="salvaRanking('+pontuacao+')" class="bnt btn-success">Salvar</span>');
 				for(var i=0; i < 10; i++){
 					$('#tbody').append('<tr>' +
 						'<td><span>' +(parseInt(i)+1)+ '</span></td>' +
@@ -500,7 +500,7 @@ function salvaRanking(pontuacao){
 		success: function (data) {
 			alert("Nome inserido com sucesso!")
 			$('#nomeRanking').val('');
-			window.location.href = "../ranking";
+			window.open('https://brunnocruzf.github.io/jogo-forca_front/ranking/');
 		},
 	})
 }
