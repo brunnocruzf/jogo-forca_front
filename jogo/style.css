@@ -1,6 +1,22 @@
 @charset "utf-8";
 body{
-	font-size: 13pt;
+	font-size: 30pt;
+	font-family: "Source Sans Pro";
+}
+#bntNovoJogo{
+	margin-top: 0;
+	height: 50px;
+	width: 100%;
+	font-size: 20px !important;
+	font-family: "Arial Black";
+}
+
+#bntGeraJogador{
+	margin-top: 6%;
+	height: 250px;
+	width: 80%;
+	font-size: 80px !important;
+	font-family: "Arial Black";
 }
 .habilitado{
 	display:inline-block;
@@ -12,7 +28,8 @@ body{
 	font-weight: bold;
 	text-align: center;
 	text-transform: uppercase;
-	font-size: 14pt;
+	font-size: 12pt;
+	font-family: Cambria;
 }
 .erro{
 	color: #FF0000;	
@@ -22,24 +39,27 @@ body{
 }
 .rotulo{
 	font-weight: bold;
+	font-family: Cambria;
 }
 .letra{
-	border: #000 1px solid;
+	border:darkgrey 1px solid;
+	border-radius: 9px;
 }
 input[type="text"],
 button{
-	height: 50px;
-	font-size: 100%;
-	border: #000 1px solid;
+	font-family: "Arial Black";
+	font-size: 80%;
 	margin-bottom: 10px;
 }
 .corpo{
-	border: #000 1px solid;
-	width: 90%;
+	width: 70% !important;
 	margin: auto;
 	padding-bottom: 150px;
-	min-height: 400px;
+	padding-top: 0px !important;
+	padding: 2%;
+	min-height: 600px;
 	height: auto;
+	background: #eeeeee;
 	/*
 	padding: 50px;
 	*/
@@ -52,6 +72,8 @@ span{
 	float: left;
 }
 .desenho{
+	font-size: 20pt;
+	font-family: "Source Sans Pro";
 	min-width: 300px;
 	width: auto;
 	float: right;
@@ -73,7 +95,8 @@ letra{
 	margin-left: 50px;
 }
 .alinhar{
-	font-size: 16pt;
+	font-family: Cambria;
+	font-size: 12pt;
 	text-align: center;
 }
 .alinhar .rotulo{
@@ -81,7 +104,8 @@ letra{
 }
 .pergunta{
 	text-transform: uppercase;
-	font-size: 18pt;
+	font-family: Cambria;
+	font-size: 20pt;
 	font-weight: bold;
 }
 .preenchimento{
@@ -97,7 +121,8 @@ letra{
 }
 .selecionado{
 	text-transform: uppercase;
-	font-size: 20pt;
+	font-family: Cambria;
+	font-size: 18pt;
 	font-weight: bold;
 }
 .invisivel{

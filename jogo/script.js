@@ -24,10 +24,10 @@ invalido[5] = aluno[24];
 var msg = new Array();
 msg[0] = "Informe uma letra.";
 msg[1] = "Parabéns, você acertou!";
-msg[2] = "Errou! Preste mais atenção na próxima vez.";
+msg[2] = "GAME OVER, Palavra errada.";
 msg[3] = "Este jogador não pode participar do jogo.";
 msg[4] = "Ocorreu um erro, tente novamente.";
-msg[5] = "Informe uma resposta.";
+msg[5] = "Digite uma resposta.";
 msg[6] = "Este jogador já foi sorteado!";
 msg[7] = "Esta letra já foi informada!";
 msg[8] = "Letra errada, tente outra.";
@@ -37,6 +37,7 @@ pergunta[1] = "cor" ;
 
 var resposta = new Array();
 resposta[1] = "amarelo";
+localStorage.setItem("resposta", resposta[1]);
 
 
 var imagem = new Array();
@@ -54,7 +55,8 @@ var todasLetras = new Array();
 var historico = new Array();
 
 $(document).ready(function inicio(){
-	$("#forca").append("<img id='imgForca' src='" + imagem[0] + "' width='50%' />");
+	$("#imgForca").hide();
+	$("#forca").append("<img hidden id='imgForca' src='" + imagem[0] + "' width='50%' />");
 	ganhou = false;
 	perdeu = false;
 	faseAtual = 1;
@@ -69,6 +71,9 @@ $(document).ready(function inicio(){
 
 	montaPalavra();
 	memento();
+
+	localStorage.setItem("pontuacao", 0);
+
 });
 
 function trocaImagem(){
@@ -100,8 +105,11 @@ function trocaImagem(){
 }
 
 $("#bntGeraJogador").click(function gerarJogador(){
+	$("#bntGeraJogador").remove();
 	$("#faseAtual").text("Fase " + faseAtual);
 	$("#numTentativas").text("Tentativas: " + tentativas);
+
+	$('#imgForca').show();
 
 	elementosHabilitados();
 
@@ -169,7 +177,19 @@ $("#bntTentar").click(function tentarLetra(){
 
 				localStorage.setItem("todasLetras", todasLetras.join());
 
+				var pontuacao = localStorage.getItem("pontuacao");
+
+				pontuacao = (parseInt(pontuacao) + parseInt(5));
+
+
+				localStorage.setItem("pontuacao", pontuacao);
+
+				$('#pontuacao > p').remove();
+
+				$('#pontuacao').append('<p>Sua Pontuação: '+localStorage.getItem("pontuacao")+'</p>')
+
 				preencheLacuna();
+
 			}else{
 				$("#mensagem").removeClass("sucesso");
 				$("#mensagem").text(msg[7]).show().addClass("erro");
@@ -237,6 +257,7 @@ function fase(){
 }
 
 function montaPalavra(){
+
 	respostaAtual = resposta[faseAtual].toUpperCase();
 	var qntLetras = respostaAtual.length;
 
@@ -324,6 +345,9 @@ function gameOver(){
 	$("#mensagem").text(msg[2]).addClass("erro");
 	$("#bntNovoJogo").show();
 	$("#bntGeraJogador").attr("disabled", "disabled");
+
+	$("#resposta").css({display: 'inline'});
+	$('#resposta').append("<p>Resposta correta: "+localStorage.getItem("resposta")+"</p>")
 	//fim();
 }
 
@@ -339,6 +363,17 @@ function vitoria(){
 	perguntaAtual = pergunta[faseAtual];
 	$("#bntNovoJogo").show();
 	$("#bntGeraJogador").attr("disabled", "disabled");
+
+	var pontuacao = localStorage.getItem("pontuacao");
+	pontuacao = (parseInt(pontuacao) + parseInt(100));
+	localStorage.setItem("pontuacao", pontuacao);
+
+
+
+	$('#pontuacao > p').remove();
+
+	$('#pontuacao').append("<p>Sua pontuação: "+ localStorage.getItem("pontuacao")+"</p>");
+
 	//fim();
 }
 

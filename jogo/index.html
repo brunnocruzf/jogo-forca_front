@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" >
 <head>
-  <meta charset="UTF-8">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+		  integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+		  integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<meta charset="UTF-8">
   <title>Jogo da Forca</title>
   <link rel="stylesheet" href="./style.css">
 
 </head>
 <body>
 <div id="jogo" class="corpo">
+	<button id="bntNovoJogo" class="bnt btn-primary proximo" type="button">Novo Jogo</button>
 	<div class="alinhar">
 			<label class="rotulo">Categoria:</label>
 			<span id="perguntaAtual" class="pergunta"></span>
@@ -16,7 +23,8 @@
 		<span id="mensagem" class="msg"></span>
 	</div>
 			<div class="alinhar">
-		<button id="bntGeraJogador" class="bnt gerador" type="button" value="Gerar jogador" title="Clique aqui para gerar um jogador">Iniciar Jogo</button>
+
+		<button id="bntGeraJogador" class="bnt btn-success gerador" type="button" value="Gerar jogador" title="Clique aqui para gerar um jogador">Iniciar Jogo</button>
 
 	<div class="parteEscrito">
 
@@ -26,15 +34,19 @@
 	<div id="perguntas">
 		<div class="preenchimento">
 			<label class="rotulo">Letra: </label>
-			<input id="entradaLetra" type="text" class="entrada" size="1" maxlength="1" title="Informe uma letra" />
-			<button id="bntTentar" class="bnt" type="button" value="Tentar!" title="Clique aqui para usar sua letra">Tentar!</button>
-			<br />
+			<table width="100%"><tr>
+				<td  width="80%"><input id="entradaLetra" class="form-control" type="text" class="entrada" size="1" maxlength="1" title="Informe uma letra" /></td>
+				<td><button id="bntTentar" class="bnt btn-primary" type="button" value="Tentar!" title="Clique aqui para usar sua letra">Tentar!</button></td>
+			</tr></table>
+				<br />
 			<label class="rotulo">Resposta: </label>
-			<input id="entradaResposta" type="text" class="entrada" title="Informe a resposta" />
-			<button id="bntResponder" class="bnt" type="button" value="Responder!" title="Clique aqui para responder">Responder!</button>
+			<table width="100%"><tr>
+				<td><input class="form-control" id="entradaResposta"  type="text" class="entrada" title="Informe a resposta" /></td>
+				<td><button id="bntResponder" class="bnt btn-primary" type="button" value="Responder!" title="Clique aqui para responder">Responder!</button></td>
+			</tr></table>
 			<br />
 			<div id="palavra" class="letras">
-			<span id="letraEscolhida"></span>
+
 			<br />
 			<span id="letraErrada"></span>
 			<br />
@@ -43,13 +55,15 @@
 			<span id="resposta"></span>
 			<br />
 			
-			<button id="bntNovoJogo" class="bnt proximo" type="button" value="Próxima Pergunta" title="Clique aqui para avançar a fase">Novo Jogo</button>
-				
+
+
 		</div>
 	</div>
     </div>
 			</div>
-	 <div id="forca" class="desenho"></div>
+	 <div id="forca" class="desenho"><div id="pontuacao"><span id="letraEscolhida"></span></div></div>
+
+
 </div>
 <!-- partial -->
   <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script><script  src="./script.js"></script>
