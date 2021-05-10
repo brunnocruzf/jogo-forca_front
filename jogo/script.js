@@ -390,7 +390,7 @@ function gameOver(){
 			}
 
 			if (pontuacao > pontos){
-				$('#incRanking').append('<input type="text" class="form-control" id="nomeRanking"><span style="width: 20px !important; height: 10px !important; font-size: 16px;" onclick="salvaRanking('+pontuacao+')" class="bnt btn-success">Salvar</span>');
+				$('#incRanking').append('<table><tr><td><input type="text" style="font-size: 14px!important;" class="form-control" id="nomeRanking"></td><td><span style="width: 20px !important; height: 10px !important; font-size: 26px;" onclick="salvaRanking('+pontuacao+')" class="bnt btn-success">Salvar</span></td></tr></table>');
 				for(var i=0; i < 10; i++){
 					$('#tbody').append('<tr>' +
 						'<td><span>' +(parseInt(i)+1)+ '</span></td>' +
@@ -457,7 +457,7 @@ function vitoria(){
 				}
 			}
 			if (pontuacao > pontos){
-				$('#incRanking').append('<input type="text" class="form-control" id="nomeRanking"><span style="width: 20px !important; height: 10px !important; font-size: 16px;" onclick="salvaRanking('+pontuacao+')" class="bnt btn-success">Salvar</span>');
+				$('#incRanking').append('<table><tr><td><input type="text" style="font-size: 14px!important;" class="form-control" id="nomeRanking"></td><td><span style="width: 20px !important; height: 10px !important; font-size: 26px;" onclick="salvaRanking('+pontuacao+')" class="bnt btn-success">Salvar</span></td></tr></table>');
 				for(var i=0; i < 10; i++){
 					$('#tbody').append('<tr>' +
 						'<td><span>' +(parseInt(i)+1)+ '</span></td>' +
@@ -501,6 +501,7 @@ function salvaRanking(pontuacao){
 			alert("Nome inserido com sucesso!")
 			$('#nomeRanking').val('');
 			window.open('https://brunnocruzf.github.io/jogo-forca_front/ranking/');
+			fechamodal();
 		},
 	})
 }
