@@ -53,6 +53,7 @@ var historico = new Array();
 
 $(document).ready(function inicio(){
 	$("#imgForca").hide();
+	$("#rotulo").hide();
 	$("#forca").append("<img hidden id='imgForca' src='" + imagem[0] + "' width='50%' />");
 	ganhou = false;
 	perdeu = false;
@@ -128,6 +129,7 @@ $("#bntGeraJogador").click(function gerarJogador(){
 	$("#mensagem").text(" ");
 
 	$("#perguntas").show();
+	$("#rotulo").show();
 
 	entrada = null;
 	$("#entradaLetra").val(null);
