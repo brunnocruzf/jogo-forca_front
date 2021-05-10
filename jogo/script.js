@@ -365,7 +365,7 @@ function gameOver(){
 	var pontuacao = localStorage.getItem("pontuacao");
 	pontuacao = (parseInt(pontuacao) + parseInt(100));
 	localStorage.setItem("pontuacao", pontuacao);
-
+	$('info').append("VOCE PERDEU! - PONTUAÇÃO :"+pontuacao);
 
 	$.ajax({
 		url: 'https://jogo-forca.herokuapp.com/ranking/',
@@ -435,7 +435,7 @@ function vitoria(){
 	var pontuacao = localStorage.getItem("pontuacao");
 	pontuacao = (parseInt(pontuacao) + parseInt(100));
 	localStorage.setItem("pontuacao", pontuacao);
-
+	$('info').append("PARABENS VOCE VENCEU! - PONTUAÇÃO :"+pontuacao);
 
 	$.ajax({
 		url: 'https://jogo-forca.herokuapp.com/ranking/',
