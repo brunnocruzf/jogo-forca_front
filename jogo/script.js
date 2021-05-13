@@ -67,7 +67,6 @@ $(document).ready(function inicio() {
 	$("#faseAtual").text("Fase " + faseAtual);
 	$("#numTentativas").text("Tentativas: " + tentativas);
 
-
 	memento();
 
 	localStorage.setItem("pontuacao", 0);
@@ -150,6 +149,8 @@ $("#bntGeraJogador").click(function gerarJogador() {
 
 	$("#perguntas").show();
 	$("#rotulo").show();
+
+	$("#exibeRanking").hide();
 
 	entrada = null;
 	$("#entradaLetra").val(null);
