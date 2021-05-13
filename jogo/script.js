@@ -33,7 +33,16 @@ msg[7] = "Esta letra já foi informada!";
 msg[8] = "Letra errada, tente outra.";
 
 var pergunta = new Array();
-pergunta[1] = "cor";
+pergunta[1] = localStorage.getItem("categoria");
+pergunta[2] = localStorage.getItem("categoria");
+pergunta[3] = localStorage.getItem("categoria");
+pergunta[4] = localStorage.getItem("categoria");
+pergunta[5] = localStorage.getItem("categoria");
+pergunta[6] = localStorage.getItem("categoria");
+pergunta[7] = localStorage.getItem("categoria");
+pergunta[8] = localStorage.getItem("categoria");
+pergunta[9] = localStorage.getItem("categoria");
+pergunta[10] = localStorage.getItem("categoria");
 
 var resposta = new Array();
 
@@ -71,19 +80,7 @@ $(document).ready(function inicio() {
 
 	localStorage.setItem("pontuacao", 0);
 
-	$.ajax({
-		url: 'https://jogo-forca.herokuapp.com/palavras',
-		type: "get",
-		scriptCharset: 'UTF-8',
-		crossDomain: true,
-		dataType: 'json',
-		success: function (data) {
-			var resposta = new Array();
-			localStorage.setItem("resposta", data['palavra']);
-			console.log(data['palavra']);
-			montaPalavra();
-		},
-	})
+
 
 	//CARREGA RANKING
 
@@ -102,6 +99,24 @@ $(document).ready(function inicio() {
 					'</tr>');
 			}
 		}
+	})
+
+	//carrega categorias
+
+	$.ajax({
+		url: 'https://jogo-forca.herokuapp.com/categorias',
+		type: "get",
+		scriptCharset: 'UTF-8',
+		crossDomain: true,
+		dataType: 'json',
+		success: function (data) {
+			//var myJSON = JSON.stringify(data);
+			//altarr para preencher select
+
+			data['categorias'].forEach(function (fn, scope) {
+				$('#select').append('<option dado="'+ fn['id'] +'" value="' + fn['descricao'] + '">' + fn['descricao'] + '</option>');
+			});
+		},
 	})
 
 
@@ -136,7 +151,6 @@ function trocaImagem() {
 }
 
 $("#bntGeraJogador").click(function gerarJogador() {
-
 	$("#bntGeraJogador").remove();
 	$("#faseAtual").text("Fase " + faseAtual);
 	$("#numTentativas").text("Tentativas: " + tentativas);
@@ -151,9 +165,45 @@ $("#bntGeraJogador").click(function gerarJogador() {
 	$("#rotulo").show();
 
 	$("#exibeRanking").hide();
+	$("#select").hide();
 
 	entrada = null;
 	$("#entradaLetra").val(null);
+
+	//busca palavra
+	var categoria = $('#select').val();
+	if(categoria == '000') {
+		$.ajax({
+			url: 'https://jogo-forca.herokuapp.com/palavras',
+			type: "get",
+			scriptCharset: 'UTF-8',
+			crossDomain: true,
+			dataType: 'json',
+			success: function (data) {
+				var resposta = new Array();
+				localStorage.setItem("resposta", data['palavra']);
+				localStorage.setItem("categoria", "Não informada.");
+				console.log(data['palavra']);
+				montaPalavra();
+			},
+		})
+	}else {
+		$.ajax({
+			url: 'https://jogo-forca.herokuapp.com/palavras/'+categoria,
+			type: "get",
+			scriptCharset: 'UTF-8',
+			crossDomain: true,
+			dataType: 'json',
+			success: function (data) {
+				var resposta = new Array();
+				localStorage.setItem("resposta", data['palavra']);
+
+				localStorage.setItem("categoria",categoria);
+				console.log(data);
+				montaPalavra();
+			},
+		})
+	}
 
 	resposta[1] = localStorage.getItem("resposta");
 
@@ -221,7 +271,7 @@ $("#bntTentar").click(function tentarLetra() {
 });
 
 function fase() {
-	perguntaAtual = pergunta[faseAtual];
+	perguntaAtual = localStorage.getItem("categoria");
 	respostaAtual = localStorage.getItem("resposta").toUpperCase();
 
 	localStorage.setItem("perguntaAtual", perguntaAtual);

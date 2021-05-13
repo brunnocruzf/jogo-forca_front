@@ -23,12 +23,21 @@ body{
 }
 
 #exibeRanking{
-	margin-top: 6%;
+	margin-top: -15%;
 	height: 150px;
 	width: 40%;
 	font-size: 30px !important;
 	font-family: "Arial Black";
 }
+
+#select{
+	float: left;
+	clear: both;
+	width: 40%;
+	font-family: "Arial Black";
+}
+
+
 .habilitado{
 	display:inline-block;
 }
