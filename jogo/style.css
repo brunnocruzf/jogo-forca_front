@@ -16,9 +16,17 @@ body{
 
 #bntGeraJogador{
 	margin-top: 6%;
-	height: 250px;
-	width: 80%;
-	font-size: 80px !important;
+	height: 150px;
+	width: 40%;
+	font-size: 30px !important;
+	font-family: "Arial Black";
+}
+
+#exibeRanking{
+	margin-top: 6%;
+	height: 150px;
+	width: 40%;
+	font-size: 30px !important;
 	font-family: "Arial Black";
 }
 .habilitado{
@@ -35,7 +43,7 @@ body{
 	font-family: Cambria;
 }
 .erro{
-	color: #FF0000;	
+	color: #FF0000;
 }
 .sucesso{
 	color: #0000FF;

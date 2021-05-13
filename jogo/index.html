@@ -6,107 +6,108 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
 	<meta charset="UTF-8">
-  	<title>Jogo da Forca</title>
-  	<link rel="stylesheet" href="./style.css">
+	<title>Jogo da Forca</title>
+	<link rel="stylesheet" href="./style.css">
 
 </head>
 <body>
 
-	<div id="jogo" class="corpo">
+<div id="jogo" class="corpo">
 
-		<button id="bntNovoJogo" class="bnt btn-primary proximo" type="button">Novo Jogo</button>
+	<button id="bntNovoJogo" class="bnt btn-primary proximo" type="button">Novo Jogo</button>
 
-		<div class="alinhar">
-			<span  id="rotulo" class="rotulo">Categoria: <span id="perguntaAtual" class="pergunta"></span> </span>
-		</div>
+	<div class="alinhar">
+		<span  id="rotulo" class="rotulo">Categoria: <span id="perguntaAtual" class="pergunta"></span> </span>
+	</div>
 
-		<div class="alinhar">
-			<span id="mensagem" class="msg"></span>
-		</div>
-				
-		<div class="alinhar">
+	<div class="alinhar">
+		<span id="mensagem" class="msg"></span>
+	</div>
 
-			<button id="bntGeraJogador" class="bnt btn-success gerador" type="button" value="Gerar jogador" title="Clique aqui para iniciar jogo">Iniciar Jogo</button>
-		
-			<div class="parteEscrito">
-				
-				<span id="faseAtual" class="desabilitado"></span>
-				<span id="numTentativas" class="desabilitado"></span>
+	<div class="alinhar">
 
-				<div id="perguntas">
+		<button id="bntGeraJogador" class="bnt btn-success gerador" style="float: left" type="button" value="Gerar jogador" title="Clique aqui para iniciar jogo">Iniciar Jogo</button>
+		<button id="exibeRanking" class="bnt btn-primary gerador" style="float: right" onclick="" type="button" value="Ranking"  data-toggle="modal" data-target="#ranking" title="Clique aqui para iniciar jogo">Ranking</button>
 
-					<div class="preenchimento">
+		<div class="parteEscrito">
 
-						<label class="rotulo">Letra: </label>
+			<span id="faseAtual" class="desabilitado"></span>
+			<span id="numTentativas" class="desabilitado"></span>
 
-						<table width="100%">
-							<tr>
-								<td  width="80%"><input id="entradaLetra" class="form-control" type="text" class="entrada" size="1" maxlength="1" title="Informe uma letra" /></td>
-								<td><button id="bntTentar" class="bnt btn-primary" type="button" value="Tentar!" title="Clique aqui para usar sua letra">Tentar!</button></td>
-							</tr>
-						</table>
+			<div id="perguntas">
+
+				<div class="preenchimento">
+
+					<label class="rotulo">Letra: </label>
+
+					<table width="100%">
+						<tr>
+							<td  width="80%"><input id="entradaLetra" class="form-control" type="text" class="entrada" size="1" maxlength="1" title="Informe uma letra" /></td>
+							<td><button id="bntTentar" class="bnt btn-primary" type="button" value="Tentar!" title="Clique aqui para usar sua letra">Tentar!</button></td>
+						</tr>
+					</table>
+
+					<br />
+
+					<div id="palavra" class="letras">
 
 						<br />
-						
-						<div id="palavra" class="letras">
-
-							<br />
-							<span id="letraErrada"></span>
-							<br />
-							<span id="respostaInformada"></span>
-							<br />
-							<span id="resposta"></span>
-							<br />
-
-						</div>
+						<span id="letraErrada"></span>
+						<br />
+						<span id="respostaInformada"></span>
+						<br />
+						<span id="resposta"></span>
+						<br />
 
 					</div>
-				
+
 				</div>
 
 			</div>
 
-			<div id="forca" class="desenho"><div id="pontuacao"><span id="letraEscolhida"></span></div></div>
+		</div>
 
-		</div>
-		
-		<div class="modal" id="ranking" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-		
-				<div class="modal-content">
-		
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Ranking<br><p id="info" STYLE="margin: 0px;"></p></h5>
-						<button type="button" class="close" data-dismiss="modal" onclick="fechamodal()" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<div id="incRanking"></div>
-						<table class="table" style="font-size: 14px">
-							<thead>
-							<tr>
-								<th scope="col">Posição</th>
-								<th scope="col">Nome</th>
-								<th scope="col">Pontuação</th>
-							</tr>
-							</thead>
-							<tbody id="tbody">
-		
-							</tbody>
-						</table>
-					</div>
-					
-				</div>
-		
-			</div>
-		</div>
+		<div id="forca" class="desenho"><div id="pontuacao"><span id="letraEscolhida"></span></div></div>
 
 	</div>
 
-	<script src='https://code.jquery.com/jquery-2.2.4.min.js'></script><script  src="./script.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<div class="modal" id="ranking" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Ranking<br><p id="info" STYLE="margin: 0px;"></p></h5>
+					<button type="button" class="close" data-dismiss="modal" onclick="fechamodal()" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div id="incRanking"></div>
+					<table class="table" style="font-size: 14px">
+						<thead>
+						<tr>
+							<th scope="col">Posição</th>
+							<th scope="col">Nome</th>
+							<th scope="col">Pontuação</th>
+						</tr>
+						</thead>
+						<tbody id="tbody">
+
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+</div>
+
+<script src='https://code.jquery.com/jquery-2.2.4.min.js'></script><script  src="./script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 </body>
 </html>

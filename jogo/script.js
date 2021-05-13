@@ -10,7 +10,7 @@ var acertos;
 var evento;
 
 var aluno = new Array();
-aluno[1]  = "";
+aluno[1] = "";
 
 //Esquipe: 3 9 11 13 21 24
 var invalido = new Array();
@@ -33,7 +33,7 @@ msg[7] = "Esta letra já foi informada!";
 msg[8] = "Letra errada, tente outra.";
 
 var pergunta = new Array();
-pergunta[1] = "cor" ;
+pergunta[1] = "cor";
 
 var resposta = new Array();
 
@@ -51,7 +51,7 @@ var letraErrada = new Array();
 var todasLetras = new Array();
 var historico = new Array();
 
-$(document).ready(function inicio(){
+$(document).ready(function inicio() {
 	$("#imgForca").hide();
 	$("#rotulo").hide();
 	$("#forca").append("<img hidden id='imgForca' src='" + imagem[0] + "' width='50%' />");
@@ -86,12 +86,31 @@ $(document).ready(function inicio(){
 		},
 	})
 
+	//CARREGA RANKING
+
+	$.ajax({
+		url: 'https://jogo-forca.herokuapp.com/ranking/',
+		type: "get",
+		scriptCharset: 'UTF-8',
+		crossDomain: true,
+		dataType: 'JSON',
+		success: function (data) {
+			for (var i = 0; i < 10; i++) {
+				$('#tbody').append('<tr>' +
+					'<td><span>' + (parseInt(i) + 1) + '</span></td>' +
+					'<td><span>' + data[i].nomeJogador + '</span></td>' +
+					'<td><span>' + data[i].pontuacao + '</span></td>' +
+					'</tr>');
+			}
+		}
+	})
+
 
 });
 
-function trocaImagem(){
+function trocaImagem() {
 	var valor;
-	switch(tentativas){
+	switch (tentativas) {
 		case 0:
 			$("#imgForca").attr("src", imagem[6]);
 			break;
@@ -110,14 +129,14 @@ function trocaImagem(){
 		case 5:
 			$("#imgForca").attr("src", imagem[1]);
 			break;
-		case 6:{
+		case 6: {
 			$("#imgForca").attr("src", imagem[0]);
 			break;
 		}
 	}
 }
 
-$("#bntGeraJogador").click(function gerarJogador(){
+$("#bntGeraJogador").click(function gerarJogador() {
 
 	$("#bntGeraJogador").remove();
 	$("#faseAtual").text("Fase " + faseAtual);
@@ -139,7 +158,7 @@ $("#bntGeraJogador").click(function gerarJogador(){
 
 });
 
-$("#bntNovoJogo").click(function gerarJogador(){
+$("#bntNovoJogo").click(function gerarJogador() {
 	$("#bntGeraJogador").remove();
 	$("#faseAtual").text("Fase " + faseAtual);
 	$("#numTentativas").text("Tentativas: " + tentativas);
@@ -158,7 +177,7 @@ $("#bntNovoJogo").click(function gerarJogador(){
 	document.location.reload(true);
 });
 
-$("#entradaLetra").keyup(function informaLetra(){
+$("#entradaLetra").keyup(function informaLetra() {
 
 	entrada = $("#entradaLetra").val().toUpperCase();
 	localStorage.setItem("entradaLetra", entrada);
@@ -166,19 +185,19 @@ $("#entradaLetra").keyup(function informaLetra(){
 });
 
 
-$("#bntTentar").click(function tentarLetra(){
+$("#bntTentar").click(function tentarLetra() {
 	$("#mensagem").text(" ");
 	var entradaLetra = $("#entradaLetra").val();
-	if(entrada == null){
+	if (entrada == null) {
 		$("#mensagem").removeClass("sucesso");
 		$("#mensagem").text(msg[0]).show().addClass("erro");
-	}else{
-		if(entradaLetra == null || entradaLetra == "" || entradaLetra == "undefined"){
-			
+	} else {
+		if (entradaLetra == null || entradaLetra == "" || entradaLetra == "undefined") {
+
 			$("#mensagem").removeClass("sucesso");
 			$("#mensagem").text(msg[0]).show().addClass("erro");
-		}else{
-			if(letraInformada.indexOf(entrada) < 0){
+		} else {
+			if (letraInformada.indexOf(entrada) < 0) {
 				letraInformada.push(entrada);
 				todasLetras.push(entrada);
 				$("#letraEscolhida").text("Letras informadas: " + todasLetras.join());
@@ -189,7 +208,7 @@ $("#bntTentar").click(function tentarLetra(){
 				preencheLacuna();
 				$("#entradaLetra").val('');
 
-			}else{
+			} else {
 				$("#mensagem").removeClass("sucesso");
 				$("#mensagem").text(msg[7]).show().addClass("erro");
 			}
@@ -200,7 +219,7 @@ $("#bntTentar").click(function tentarLetra(){
 
 });
 
-function fase(){
+function fase() {
 	perguntaAtual = pergunta[faseAtual];
 	respostaAtual = localStorage.getItem("resposta").toUpperCase();
 
@@ -209,13 +228,13 @@ function fase(){
 
 	$("#perguntaAtual").text(perguntaAtual);
 
-	if(entrada == respostaAtual){
+	if (entrada == respostaAtual) {
 		ganhou = true;
 		perdeu = false;
 		preencheLacuna();
 		vitoria();
 
-	}else{
+	} else {
 		perdeu = true;
 		$("#mensagem").removeClass("sucesso");
 		$("#mensagem").text(msg[2]).addClass("erro");
@@ -224,50 +243,50 @@ function fase(){
 
 }
 
-function montaPalavra(){
+function montaPalavra() {
 
 	respostaAtual = localStorage.getItem("resposta");
 	var qntLetras = respostaAtual.length;
 
-	for(var i=0; i<qntLetras; i++){
+	for (var i = 0; i < qntLetras; i++) {
 
 		$("#palavra").append('<input id="l' + i + '" class="letra" type="text" disabled="disabled" size="1" />');
-		if(respostaAtual.charAt(i) == "-"){
-			$("#l"+i).val("-");
-		}else if(respostaAtual.charAt(i) == " "){
-			$("#l"+i).addClass("invisivel");
-			$("#l"+i).val(null);
-		}else{
-			$("#l"+i).val(null);
+		if (respostaAtual.charAt(i) == "-") {
+			$("#l" + i).val("-");
+		} else if (respostaAtual.charAt(i) == " ") {
+			$("#l" + i).addClass("invisivel");
+			$("#l" + i).val(null);
+		} else {
+			$("#l" + i).val(null);
 		}
 	}
 	fase();
 }
 
-function preencheLacuna(){
+function preencheLacuna() {
 	var qntLetras = respostaAtual.length;
 	var letraInformada = respostaAtual.search(entrada);
 
-	if(ganhou){
-		for(var i=0; i<=qntLetras; i++){
-			$("#l"+i).val(respostaAtual.charAt(i));
+	if (ganhou) {
+		for (var i = 0; i <= qntLetras; i++) {
+			$("#l" + i).val(respostaAtual.charAt(i));
 		}
-	}else{
+	} else {
 		var acertoLetra = 0;
-		if(letraInformada > -1){
+		if (letraInformada > -1) {
 			acertos++;
 
-			if(acertos >= qntLetras){
+			if (acertos >= qntLetras) {
 				vitoria();
 			}
 
-			for(var i=0; i<=qntLetras; i++){
-				if(entrada == respostaAtual.charAt(i)){
-					$("#l"+i).val(respostaAtual.charAt(letraInformada));
+			for (var i = 0; i <= qntLetras; i++) {
+				if (entrada == respostaAtual.charAt(i)) {
+					$("#l" + i).val(respostaAtual.charAt(letraInformada));
 					acertoLetra++;
 				}
 			}
-			acertos = acertos + acertoLetra -1;
+			acertos = acertos + acertoLetra - 1;
 			var pontuacao = localStorage.getItem("pontuacao");
 
 			pontuacao = (parseInt(pontuacao) + parseInt(5));
@@ -277,9 +296,9 @@ function preencheLacuna(){
 
 			$('#pontuacao > p').remove();
 
-			$('#pontuacao').append('<p>Sua Pontuação: '+localStorage.getItem("pontuacao")+'</p>')
+			$('#pontuacao').append('<p>Sua Pontuação: ' + localStorage.getItem("pontuacao") + '</p>')
 
-		}else{
+		} else {
 			letraErrada.push(entrada);
 			$("#letraErrada").text("Letras Erradas: " + letraErrada.join());
 			tentativas--;
@@ -287,27 +306,27 @@ function preencheLacuna(){
 			$("#mensagem").removeClass("sucesso");
 			$("#mensagem").text(msg[8]).show().addClass("erro");
 			$("#numTentativas").text("Tentativas: " + tentativas);
-			if(tentativas <= 0){
+			if (tentativas <= 0) {
 				gameOver();
 			}
 		}
 	}
 }
 
-function elementosHabilitados(){
+function elementosHabilitados() {
 	$("#bntResponder").removeAttr("disabled", "disabled");
 	$("#bntTentar").removeAttr("disabled", "disabled");
 	$("#entradaLetra").removeAttr("disabled", "disabled");
 }
 
-function elementosDesabilitados(){
+function elementosDesabilitados() {
 	$("#numTentativas").text("Tentativas: " + tentativas);
 	$("#bntResponder").attr("disabled", "disabled");
 	$("#bntTentar").attr("disabled", "disabled");
 	$("#entradaLetra").attr("disabled", "disabled");
 }
 
-function gameOver(){
+function gameOver() {
 	$("#imgForca").attr("src", imagem[6]);
 	var qntLetras = respostaAtual.length;
 	elementosDesabilitados();
@@ -323,12 +342,12 @@ function gameOver(){
 	$("#bntGeraJogador").attr("disabled", "disabled");
 
 	$("#resposta").css({display: 'inline'});
-	$('#resposta').append("<p>Resposta correta: "+localStorage.getItem("resposta")+"</p>")
+	$('#resposta').append("<p>Resposta correta: " + localStorage.getItem("resposta") + "</p>")
 
 
 	var pontuacao = localStorage.getItem("pontuacao");
 	localStorage.setItem("pontuacao", pontuacao);
-	$('#info').append("<b style='color: red'>VOCE PERDEU! - PONTUAÇÃO: "+pontuacao+"</b>");
+	$('#info').append("<b style='color: red'>VOCE PERDEU! - PONTUAÇÃO: " + pontuacao + "</b>");
 
 	$.ajax({
 		url: 'https://jogo-forca.herokuapp.com/ranking/',
@@ -342,26 +361,26 @@ function gameOver(){
 
 			var flag = false;
 			var pontos = 0;
-			for(var i=0; i < 10; i++){
+			for (var i = 0; i < 10; i++) {
 
-				if(data[i].pontuacao > pontos){
+				if (data[i].pontuacao > pontos) {
 					pontos = data[i].pontuacao;
 				}
 			}
 
-			if (pontuacao > pontos){
-				$('#incRanking').append('<table><tr><td><input type="text" style="font-size: 14px!important;" class="form-control" id="nomeRanking"></td><td><span style="width: 20px !important; height: 10px !important; font-size: 26px;" onclick="salvaRanking('+pontuacao+')" class="bnt btn-success">Salvar</span></td></tr></table>');
-				for(var i=0; i < 10; i++){
+			if (pontuacao > pontos) {
+				$('#incRanking').append('<table><tr><td><input type="text" style="font-size: 14px!important;" class="form-control" id="nomeRanking"></td><td><span style="width: 20px !important; height: 10px !important; font-size: 26px;" onclick="salvaRanking(' + pontuacao + ')" class="bnt btn-success">Salvar</span></td></tr></table>');
+				for (var i = 0; i < 10; i++) {
 					$('#tbody').append('<tr>' +
-						'<td><span>' +(parseInt(i)+1)+ '</span></td>' +
+						'<td><span>' + (parseInt(i) + 1) + '</span></td>' +
 						'<td><span>' + data[i].nomeJogador + '</span></td>' +
 						'<td><span>' + data[i].pontuacao + '</span></td>' +
 						'</tr>');
 				}
-			}else{
-				for(var i=0; i < 10; i++){
+			} else {
+				for (var i = 0; i < 10; i++) {
 					$('#tbody').append('<tr>' +
-						'<td><span>' +(parseInt(i)+1)+ '</span></td>' +
+						'<td><span>' + (parseInt(i) + 1) + '</span></td>' +
 						'<td><span>' + data[i].nomeJogador + '</span></td>' +
 						'<td><span>' + data[i].pontuacao + '</span></td>' +
 						'</tr>');
@@ -375,11 +394,12 @@ function gameOver(){
 	})
 	//fim();
 }
-function fechamodal(){
+
+function fechamodal() {
 	$('#ranking').hide();
 }
 
-function vitoria(){
+function vitoria() {
 	$("#mensagem").removeClass("erro");
 	$("#mensagem").text(msg[1]).addClass("sucesso").show();
 	faseAtual++;
@@ -395,7 +415,7 @@ function vitoria(){
 	var pontuacao = localStorage.getItem("pontuacao");
 	pontuacao = (parseInt(pontuacao) + parseInt(100));
 	localStorage.setItem("pontuacao", pontuacao);
-	$('#info').append("<b style='color: forestgreen'>PARABENS VOCE VENCEU! - PONTUAÇÃO: "+pontuacao+"</b>");
+	$('#info').append("<b style='color: forestgreen'>PARABENS VOCE VENCEU! - PONTUAÇÃO: " + pontuacao + "</b>");
 
 	$.ajax({
 		url: 'https://jogo-forca.herokuapp.com/ranking/',
@@ -409,24 +429,24 @@ function vitoria(){
 
 			var pontos = 0;
 			var flag = false;
-			for(var i=0; i < 10; i++){
-				if(data[i].pontuacao < pontos){
+			for (var i = 0; i < 10; i++) {
+				if (data[i].pontuacao < pontos) {
 					pontos = data[i].pontuacao;
 				}
 			}
-			if (pontuacao > pontos){
-				$('#incRanking').append('<table><tr><td><input type="text" style="font-size: 14px!important;" class="form-control" id="nomeRanking"></td><td><span style="width: 20px !important; height: 10px !important; font-size: 26px;" onclick="salvaRanking('+pontuacao+')" class="bnt btn-success">Salvar</span></td></tr></table>');
-				for(var i=0; i < 10; i++){
+			if (pontuacao > pontos) {
+				$('#incRanking').append('<table><tr><td><input type="text" style="font-size: 14px!important;" class="form-control" id="nomeRanking"></td><td><span style="width: 20px !important; height: 10px !important; font-size: 26px;" onclick="salvaRanking(' + pontuacao + ')" class="bnt btn-success">Salvar</span></td></tr></table>');
+				for (var i = 0; i < 10; i++) {
 					$('#tbody').append('<tr>' +
-						'<td><span>' +(parseInt(i)+1)+ '</span></td>' +
+						'<td><span>' + (parseInt(i) + 1) + '</span></td>' +
 						'<td><span>' + data[i].nomeJogador + '</span></td>' +
 						'<td><span>' + data[i].pontuacao + '</span></td>' +
 						'</tr>');
 				}
-			}else{
-				for(var i=0; i < 10; i++){
+			} else {
+				for (var i = 0; i < 10; i++) {
 					$('#tbody').append('<tr>' +
-						'<td><span>' +(parseInt(i)+1)+ '</span></td>' +
+						'<td><span>' + (parseInt(i) + 1) + '</span></td>' +
 						'<td><span>' + data[i].nomeJogador + '</span></td>' +
 						'<td><span>' + data[i].pontuacao + '</span></td>' +
 						'</tr>');
@@ -442,15 +462,15 @@ function vitoria(){
 
 	$('#pontuacao > p').remove();
 
-	$('#pontuacao').append("<p>Sua pontuação: "+ localStorage.getItem("pontuacao")+"</p>");
+	$('#pontuacao').append("<p>Sua pontuação: " + localStorage.getItem("pontuacao") + "</p>");
 
 	//fim();
 }
 
-function salvaRanking(pontuacao){
+function salvaRanking(pontuacao) {
 	var nome = $('#nomeRanking').val();
 	$.ajax({
-		url: 'https://jogo-forca.herokuapp.com/ranking/'+nome+'/'+pontuacao,
+		url: 'https://jogo-forca.herokuapp.com/ranking/' + nome + '/' + pontuacao,
 		type: "post",
 		scriptCharset: 'UTF-8',
 		crossDomain: true,
@@ -464,16 +484,16 @@ function salvaRanking(pontuacao){
 	})
 }
 
-function fim(){
+function fim() {
 
 }
 
-function memento(){
+function memento() {
 
 	var passo = localStorage.getItem("passo");
 
-	if(passo == null || passo == "undefined"
-		|| passo == ""){
+	if (passo == null || passo == "undefined"
+		|| passo == "") {
 		evento = 0;
 	}
 	evento++;
