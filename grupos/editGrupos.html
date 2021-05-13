@@ -71,37 +71,54 @@
         $('#salvar').on('click', function () {
 
             var id = document.querySelectorAll("table tr td span");
-
             var val = $('input');
-            var palav = new Array();
-            var categorias = {};
+            var palav = new Array();            
+            var descricaoValida = true;
 
+            loop1:
             for (i = 0; i < id.length; i++) {
+
+                loop2:
                 for (i = 0; i < val.length; i++) {
+
+                    if (val[i].value == "") {
+                        alert("Descrição para grupo inválido.");
+                        descricaoValida = false;
+                        break loop1;
+                    }   
+
                     palav.push({'id': id[i].innerHTML, 'descricao': val[i].value});
+                
                 }
+
             }
 
-            categorias = palav;
-            var edit = {categorias};
+            if(descricaoValida){
 
-            console.log(JSON.stringify(edit));
+                var categorias = {};
+                categorias = palav;
+    
+                var edit = {categorias};
+    
+                console.log(JSON.stringify(edit));
+    
+                $.ajax({
+                    contentType: 'application/json',
+                    data: JSON.stringify(edit),
+                    dataType: 'json',
+                    success: function(data){
+                        alert("Salvo com sucesso.");
+                        document.location.reload(true);
+                    },
+                    error: function(){
+                        alert("Erro ao salvar.");
+                    },
+                    processData: false,
+                    type: 'POST',
+                    url: 'https://jogo-forca.herokuapp.com/categorias'
+                });
 
-            $.ajax({
-                contentType: 'application/json',
-                data: JSON.stringify(edit),
-                dataType: 'json',
-                success: function(data){
-                    alert("Salvo com sucesso.");
-                    document.location.reload(true);
-                },
-                error: function(){
-                    alert("Erro ao salvar.");
-                },
-                processData: false,
-                type: 'POST',
-                url: 'https://jogo-forca.herokuapp.com/categorias'
-            });
+            }
 
         })
 
