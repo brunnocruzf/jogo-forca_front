@@ -118,6 +118,7 @@ function trocaImagem(){
 }
 
 $("#bntGeraJogador").click(function gerarJogador(){
+
 	$("#bntGeraJogador").remove();
 	$("#faseAtual").text("Fase " + faseAtual);
 	$("#numTentativas").text("Tentativas: " + tentativas);
@@ -133,11 +134,8 @@ $("#bntGeraJogador").click(function gerarJogador(){
 
 	entrada = null;
 	$("#entradaLetra").val(null);
-	$("#entradaResposta").val(null);
-
 
 	resposta[1] = localStorage.getItem("resposta");
-
 
 });
 
@@ -156,15 +154,13 @@ $("#bntNovoJogo").click(function gerarJogador(){
 
 	entrada = null;
 	$("#entradaLetra").val(null);
-	$("#entradaResposta").val(null);
 
 	document.location.reload(true);
 });
 
 $("#entradaLetra").keyup(function informaLetra(){
-	entrada = $("#entradaLetra").val().toUpperCase();
-	$("#entradaResposta").val(null);
 
+	entrada = $("#entradaLetra").val().toUpperCase();
 	localStorage.setItem("entradaLetra", entrada);
 
 });
@@ -178,7 +174,7 @@ $("#bntTentar").click(function tentarLetra(){
 		$("#mensagem").text(msg[0]).show().addClass("erro");
 	}else{
 		if(entradaLetra == null || entradaLetra == "" || entradaLetra == "undefined"){
-			//entrada = null;
+			
 			$("#mensagem").removeClass("sucesso");
 			$("#mensagem").text(msg[0]).show().addClass("erro");
 		}else{
@@ -199,40 +195,9 @@ $("#bntTentar").click(function tentarLetra(){
 			}
 		}
 	}
-	//$("#entradaLetra").val(null);
-	$("#entradaResposta").val(null);
+
 	entrada = null;
-});
 
-$("#entradaResposta").keyup(function informaResposta(){
-	entrada = $("#entradaResposta").val().toUpperCase();
-	$("#entradaLetra").val(null);
-
-	localStorage.setItem("entradaResposta", entrada);
-});
-
-$("#bntResponder").click(function responder(){
-	var entradaResposta = $("#entradaResposta").val();;
-	$("#mensagem").text(" ").show();
-
-	if(entrada == null){
-		$("#mensagem").removeClass("sucesso");
-		$("#mensagem").text(msg[5]).show().addClass("erro");
-	}else{
-			if(entradaResposta == null || entradaResposta == "" || entradaResposta == "undefined"){
-			//entrada = null;
-			$("#mensagem").removeClass("sucesso");
-			$("#mensagem").text(msg[5]).show().addClass("erro");
-		}else{
-			$("#respostaInformada").text("Resposta Informada: " + entrada).show();
-			fase();
-			if(perdeu){
-				gameOver();
-			}
-		}
-	}
-	entrada = null;
-	$("#entradaLetra").val(null);
 });
 
 function fase(){
@@ -314,7 +279,6 @@ function preencheLacuna(){
 
 			$('#pontuacao').append('<p>Sua Pontuação: '+localStorage.getItem("pontuacao")+'</p>')
 
-			//$("#l"+letraInformada).val(respostaAtual.charAt(letraInformada));
 		}else{
 			letraErrada.push(entrada);
 			$("#letraErrada").text("Letras Erradas: " + letraErrada.join());
@@ -333,7 +297,6 @@ function preencheLacuna(){
 function elementosHabilitados(){
 	$("#bntResponder").removeAttr("disabled", "disabled");
 	$("#bntTentar").removeAttr("disabled", "disabled");
-	$("#entradaResposta").removeAttr("disabled", "disabled");
 	$("#entradaLetra").removeAttr("disabled", "disabled");
 }
 
@@ -341,7 +304,6 @@ function elementosDesabilitados(){
 	$("#numTentativas").text("Tentativas: " + tentativas);
 	$("#bntResponder").attr("disabled", "disabled");
 	$("#bntTentar").attr("disabled", "disabled");
-	$("#entradaResposta").attr("disabled", "disabled");
 	$("#entradaLetra").attr("disabled", "disabled");
 }
 
@@ -375,11 +337,8 @@ function gameOver(){
 		crossDomain: true,
 		dataType: 'JSON',
 		success: function (data) {
-			//var dados  = new Array();
-			//var dados = data
 
 			console.log(data[0].idRanking);
-
 
 			var flag = false;
 			var pontos = 0;
@@ -445,8 +404,6 @@ function vitoria(){
 		crossDomain: true,
 		dataType: 'JSON',
 		success: function (data) {
-			//var dados  = new Array();
-			//var dados = data
 
 			console.log(data[0].idRanking);
 
