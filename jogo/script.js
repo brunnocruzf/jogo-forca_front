@@ -466,7 +466,7 @@ function letrasorteada() {
 	
 
 	var string = result.toUpperCase();
-	console.log("string: " + string);
+	console.log("letra sorteada: " + string);
 
 	if (ganhou) {
 		for (var i = 0; i <= qntLetras; i++) {
@@ -487,7 +487,7 @@ function letrasorteada() {
 					var result2 = '';
 					result2 += characters.charAt(Math.floor(Math.random() * charactersLength));
 					string = result2.toUpperCase();
-					console.log("string mudada: " + string);
+					console.log("letra sorteada mudada: " + string);
 				}
 				if(string != visivel[j]){
 					for (var i = 0; i <= qntLetras; i++) {
@@ -501,7 +501,7 @@ function letrasorteada() {
 			}
 			acertoLetra++;
 			c++;
-			console.log("visivel: " + visivel);
+			console.log("letras visiveis: " + visivel);
 			console.log("valor de c: " + c);
 
 			acertos = acertos + acertoLetra - 1;
