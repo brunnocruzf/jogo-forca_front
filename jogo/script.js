@@ -31,6 +31,7 @@ msg[5] = "Digite uma resposta.";
 msg[6] = "Este jogador já foi sorteado!";
 msg[7] = "Esta letra já foi informada!";
 msg[8] = "Letra errada, tente outra.";
+msg[9] = "Compra de letra efetuada com sucesso.";
 
 var pergunta = new Array();
 pergunta[1] = localStorage.getItem("categoria");
@@ -210,6 +211,13 @@ $("#bntGeraJogador").click(function gerarJogador() {
 });
 
 $("#bntNovoJogo").click(function zeraCampos() {
+
+	var pontuacao = localStorage.getItem("pontuacao");
+	if(pontuacao >= 200){
+		bntCompra.disabled = false;
+		window.document.getElementById("bntCompra").style.background = "#8CAEEC";
+	}
+
 	$("#faseAtual").text("Fase " + faseAtual);
 	$("#numTentativas").text("Tentativas: " + tentativas);
 	$("#resposta").text("A resposta correta é: " + respostaAtual).show();
@@ -338,7 +346,6 @@ function fase() {
 		perdeu = false;
 		preencheLacuna();
 		vitoria();
-
 	} else {
 		perdeu = true;
 		$("#mensagem").removeClass("sucesso");
@@ -381,10 +388,6 @@ function preencheLacuna() {
 		if (letraInformada > -1) {
 			acertos++;
 
-			if (acertos >= qntLetras) {
-				vitoria();
-			}
-
 			for (var i = 0; i <= qntLetras; i++) {
 				if (entrada == respostaAtual.charAt(i)) {
 					$("#l" + i).val(respostaAtual.charAt(letraInformada));
@@ -396,13 +399,20 @@ function preencheLacuna() {
 
 			pontuacao = (parseInt(pontuacao) + parseInt(5));
 
-
 			localStorage.setItem("pontuacao", pontuacao);
 
 			$('#pontuacao > p').remove();
 
 			$('#pontuacao').append('<p>Sua Pontuação: ' + localStorage.getItem("pontuacao") + '</p>')
+		
+			if(pontuacao >= 200){
+				bntCompra.disabled = false;
+				window.document.getElementById("bntCompra").style.background = "#8CAEEC";
+			}
 
+			if (acertos >= qntLetras) {
+				vitoria();
+			}
 		} else {
 			letraErrada.push(entrada);
 			$("#letraErrada").text("Letras Erradas: " + letraErrada.join());
@@ -415,29 +425,38 @@ function preencheLacuna() {
 				gameOver();
 			}
 		}
-		if(pontuacao >= 6){
-			bntCompra.disabled = false;
-			
-		}
 	}
 }
 
 function diferencial(){
-	var pontuacao = localStorage.getItem("pontuacao");
 
+	$("#mensagem").removeClass("erro");
+	$("#mensagem").text(msg[9]).show().addClass("sucesso");
+
+	window.document.getElementById("bntCompra").style.background = "#B3BFD4";
 	
+	var pontuacao = localStorage.getItem("pontuacao");
+	var tam = 1;
 
 	$("#mensagem").text(msg[9]).show().addClass("erro");
 
-	pontuacao = (parseInt(pontuacao) - parseInt(5));
+	pontuacao = (parseInt(pontuacao) - parseInt(200));
 	localStorage.setItem("pontuacao", pontuacao);
 
 	$('#pontuacao > p').remove();
 
 	$('#pontuacao').append('<p>Sua Pontuação: ' + localStorage.getItem("pontuacao") + '</p>')
-	if(pontuacao <= 5){
+	if(pontuacao <= 199){
 		bntCompra.disabled = true;
 	}
+
+	var result           = '';
+	var characters       = localStorage.getItem("resposta");
+	var charactersLength = characters.length;
+	for ( var i = 0; i < 1; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+	}
+	console.log(result);
 }
 
 function elementosHabilitados() {
@@ -543,12 +562,17 @@ function vitoria() {
 	pontuacao = (parseInt(pontuacao) + parseInt(100));
 	localStorage.setItem("pontuacao", pontuacao);
 
+	bntCompra.disabled = true;
+	window.document.getElementById("bntCompra").style.background = "#B3BFD4";
+
 	console.log(pontuacao);
 
 
 	$('#pontuacao > p').remove();
 
 	$('#pontuacao').append("<p>Sua pontuação: " + localStorage.getItem("pontuacao") + "</p>");
+
+	
 
 	//fim();
 }
