@@ -415,6 +415,28 @@ function preencheLacuna() {
 				gameOver();
 			}
 		}
+		if(pontuacao >= 6){
+			bntCompra.disabled = false;
+			
+		}
+	}
+}
+
+function diferencial(){
+	var pontuacao = localStorage.getItem("pontuacao");
+
+	
+
+	$("#mensagem").text(msg[9]).show().addClass("erro");
+
+	pontuacao = (parseInt(pontuacao) - parseInt(5));
+	localStorage.setItem("pontuacao", pontuacao);
+
+	$('#pontuacao > p').remove();
+
+	$('#pontuacao').append('<p>Sua Pontuação: ' + localStorage.getItem("pontuacao") + '</p>')
+	if(pontuacao <= 5){
+		bntCompra.disabled = true;
 	}
 }
 
