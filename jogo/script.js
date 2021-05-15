@@ -8,6 +8,8 @@ var ganhou;
 var perdeu;
 var acertos;
 var evento;
+var visivel = [];
+var c = 0;
 
 var aluno = new Array();
 aluno[1] = "";
@@ -329,7 +331,6 @@ $("#bntTentar").click(function tentarLetra() {
 	}
 
 	entrada = null;
-
 });
 
 function fase() {
@@ -392,6 +393,8 @@ function preencheLacuna() {
 				if (entrada == respostaAtual.charAt(i)) {
 					$("#l" + i).val(respostaAtual.charAt(letraInformada));
 					acertoLetra++;
+					visivel[c] = respostaAtual.charAt(i);
+					c++;
 				}
 			}
 			acertos = acertos + acertoLetra - 1;
@@ -405,6 +408,7 @@ function preencheLacuna() {
 
 			$('#pontuacao').append('<p>Sua Pontuação: ' + localStorage.getItem("pontuacao") + '</p>')
 		
+			//habilita botao diferencial
 			if(pontuacao >= 200){
 				bntCompra.disabled = false;
 				window.document.getElementById("bntCompra").style.background = "#8CAEEC";
@@ -439,7 +443,7 @@ function diferencial(){
 	var tam = 1;
 
 	$("#mensagem").text(msg[9]).show().addClass("erro");
-
+	//desconta 200 pontos caso use diferencial
 	pontuacao = (parseInt(pontuacao) - parseInt(200));
 	localStorage.setItem("pontuacao", pontuacao);
 
@@ -449,15 +453,86 @@ function diferencial(){
 	if(pontuacao <= 199){
 		bntCompra.disabled = true;
 	}
+	letrasorteada();
+}
 
+function letrasorteada() {
+	var qntLetras = respostaAtual.length;
 	var result           = '';
 	var characters       = localStorage.getItem("resposta");
 	var charactersLength = characters.length;
-	for ( var i = 0; i < 1; i++ ) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+	
+	
+
+	var string = result.toUpperCase();
+	console.log("string: " + string);
+
+	if (ganhou) {
+		for (var i = 0; i <= qntLetras; i++) {
+			$("#l" + i).val(respostaAtual.charAt(i));
+		}
+	}else{
+	
+		var acertoLetra = 0;
+		var teste = '';
+		
+		if (result != null) {
+			acertos++;
+
+			for(var j =0; j < c; j ++){
+				
+				if(string == visivel[j]){
+					console.log("erro");
+					var result2 = '';
+					result2 += characters.charAt(Math.floor(Math.random() * charactersLength));
+					string = result2.toUpperCase();
+					console.log("string mudada: " + string);
+				}
+				if(string != visivel[j]){
+					for (var i = 0; i <= qntLetras; i++) {
+						if (string == respostaAtual.charAt(i)) {
+							$("#l" + i).val(respostaAtual.charAt(i));
+							
+							visivel[c] = respostaAtual.charAt(i);	
+						}
+					}
+				}
+			}
+			acertoLetra++;
+			c++;
+			console.log("visivel: " + visivel);
+			console.log("valor de c: " + c);
+
+			acertos = acertos + acertoLetra - 1;
+
+			if (letraInformada.indexOf(string) < 0) {
+				letraInformada.push(string);
+				todasLetras.push(string);
+				$("#letraEscolhida").text("Letras informadas: " + todasLetras.join());
+
+				localStorage.setItem("todasLetras", todasLetras.join());
+				$("#entradaLetra").val('');
+
+			} else {
+				$("#mensagem").removeClass("sucesso");
+				$("#mensagem").text(msg[7]).show().addClass("erro");
+			}
+
+
+			if (acertos >= qntLetras) {
+				vitoria();
+			}
+			}	else {
+			
+			if (tentativas <= 0) {
+				gameOver();
+			}
+		}
 	}
-	console.log(result);
 }
+
+var letraa;
 
 function elementosHabilitados() {
 	$("#bntResponder").removeAttr("disabled", "disabled");
@@ -564,7 +639,8 @@ function vitoria() {
 
 	bntCompra.disabled = true;
 	window.document.getElementById("bntCompra").style.background = "#B3BFD4";
-
+	visivel = [];
+	c=0;
 	console.log(pontuacao);
 
 
