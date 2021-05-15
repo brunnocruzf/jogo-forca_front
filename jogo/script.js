@@ -209,23 +209,77 @@ $("#bntGeraJogador").click(function gerarJogador() {
 
 });
 
-$("#bntNovoJogo").click(function gerarJogador() {
-	$("#bntGeraJogador").remove();
+$("#bntNovoJogo").click(function zeraCampos() {
 	$("#faseAtual").text("Fase " + faseAtual);
 	$("#numTentativas").text("Tentativas: " + tentativas);
+	$("#resposta").text("A resposta correta é: " + respostaAtual).show();
+	$("#perguntaAtual").text("Questão: " + perguntaAtual);
 
-	$('#imgForca').show();
+	var qntLetras = respostaAtual.length;
+	for(var i=0; i<=qntLetras; i++){
+		$("#l"+i).remove();
+	}
+	$("#bntGeraJogador").removeAttr("disabled", "disabled");
+	$("#respostaInformada").text(" ");
+	$("#letraErrada").text(" ");
+	$("#letraEscolhida").text(" ");
+	$("#jogadorGerado").text(" ");
+	$("#resposta").text(" ").hide();
+	$("#respostaInformada").text(" ").hide();
+	$("#entradaResposta").val(null);
+	$("#entradaLetra").val(null);
+	$("#perguntas").show();
+	$("#mensagem").hide();
 
+	$("#bntNovoJogo").hide();
+
+	acertos = 0;
+	//entrada = null;
+	tentativas = maxTentativas;
+	ganhou = false;
+	perdeu = false;
+	letraInformada = new Array();
+	letraErrada = new Array();
+	todasLetras = new Array();
+
+	$("#bntNovoJogo").hide();
+
+	$("#imgForca").attr("src", imagem[0]);
 	elementosHabilitados();
 
-	$("#mensagem").text(" ");
+	var categoria = $('#select').val();
+	if(categoria == '000') {
+		$.ajax({
+			url: 'https://jogo-forca.herokuapp.com/palavras',
+			type: "get",
+			scriptCharset: 'UTF-8',
+			crossDomain: true,
+			dataType: 'json',
+			success: function (data) {
+				var resposta = new Array();
+				localStorage.setItem("resposta", data['palavra']);
+				localStorage.setItem("categoria", "Não informada.");
+				console.log(data['palavra']);
+				montaPalavra();
+			},
+		})
+	}else {
+		$.ajax({
+			url: 'https://jogo-forca.herokuapp.com/palavras/'+categoria,
+			type: "get",
+			scriptCharset: 'UTF-8',
+			crossDomain: true,
+			dataType: 'json',
+			success: function (data) {
+				var resposta = new Array();
+				localStorage.setItem("resposta", data['palavra']);
 
-	$("#perguntas").show();
-
-	entrada = null;
-	$("#entradaLetra").val(null);
-
-	document.location.reload(true);
+				localStorage.setItem("categoria",categoria);
+				console.log(data);
+				montaPalavra();
+			},
+		})
+	}
 });
 
 $("#entradaLetra").keyup(function informaLetra() {
@@ -466,50 +520,9 @@ function vitoria() {
 	var pontuacao = localStorage.getItem("pontuacao");
 	pontuacao = (parseInt(pontuacao) + parseInt(100));
 	localStorage.setItem("pontuacao", pontuacao);
-	$('#info').append("<b style='color: forestgreen'>PARABENS VOCE VENCEU! - PONTUAÇÃO: " + pontuacao + "</b>");
 
-	$.ajax({
-		url: 'https://jogo-forca.herokuapp.com/ranking/',
-		type: "get",
-		scriptCharset: 'UTF-8',
-		crossDomain: true,
-		dataType: 'JSON',
-		success: function (data) {
+	console.log(pontuacao);
 
-			console.log(data[0].idRanking);
-
-			var pontos = 0;
-			var flag = false;
-			for (var i = 0; i < 10; i++) {
-				if (data[i].pontuacao < pontos) {
-					pontos = data[i].pontuacao;
-				}
-			}
-			if (pontuacao > pontos) {
-				$('#incRanking').append('<table><tr><td><input type="text" style="font-size: 14px!important;" class="form-control" id="nomeRanking"></td><td><span style="width: 20px !important; height: 10px !important; font-size: 26px;" onclick="salvaRanking(' + pontuacao + ')" class="bnt btn-success">Salvar</span></td></tr></table>');
-				for (var i = 0; i < 10; i++) {
-					$('#tbody').append('<tr>' +
-						'<td><span>' + (parseInt(i) + 1) + '</span></td>' +
-						'<td><span>' + data[i].nomeJogador + '</span></td>' +
-						'<td><span>' + data[i].pontuacao + '</span></td>' +
-						'</tr>');
-				}
-			} else {
-				for (var i = 0; i < 10; i++) {
-					$('#tbody').append('<tr>' +
-						'<td><span>' + (parseInt(i) + 1) + '</span></td>' +
-						'<td><span>' + data[i].nomeJogador + '</span></td>' +
-						'<td><span>' + data[i].pontuacao + '</span></td>' +
-						'</tr>');
-				}
-			}
-
-
-			console.log(pontuacao);
-		},
-	})
-
-	$('#ranking').show();
 
 	$('#pontuacao > p').remove();
 
