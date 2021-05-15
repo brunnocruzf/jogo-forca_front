@@ -72,6 +72,7 @@ $(document).ready(function inicio() {
 	$("#respostaInformada").text(" ").hide();
 	$("#perguntas").hide();
 	$("#mensagem").hide();
+	$("#bntReinicia").hide();
 	$("#bntNovoJogo").hide();
 	$("#faseAtual").text("Fase " + faseAtual);
 	$("#numTentativas").text("Tentativas: " + tentativas);
@@ -392,16 +393,7 @@ function preencheLacuna() {
 				}
 			}
 			acertos = acertos + acertoLetra - 1;
-			var pontuacao = localStorage.getItem("pontuacao");
 
-			pontuacao = (parseInt(pontuacao) + parseInt(5));
-
-
-			localStorage.setItem("pontuacao", pontuacao);
-
-			$('#pontuacao > p').remove();
-
-			$('#pontuacao').append('<p>Sua Pontuação: ' + localStorage.getItem("pontuacao") + '</p>')
 
 		} else {
 			letraErrada.push(entrada);
@@ -465,14 +457,17 @@ function gameOver() {
 	perdeu = true;
 	$("#mensagem").removeClass("sucesso");
 	$("#mensagem").text(msg[2]).addClass("erro");
-	$("#bntNovoJogo").show();
+	$("#bntReinicia").show();
 	$("#bntGeraJogador").attr("disabled", "disabled");
 
 	$("#resposta").css({display: 'inline'});
 	$('#resposta').append("<p>Resposta correta: " + localStorage.getItem("resposta") + "</p>")
 
+	console.log('Acertos: '+acertos)
 
 	var pontuacao = localStorage.getItem("pontuacao");
+	pontuacao = (parseInt(pontuacao)+(parseInt(acertos) * 5));
+
 	localStorage.setItem("pontuacao", pontuacao);
 	$('#info').append("<b style='color: red'>VOCE PERDEU! - PONTUAÇÃO: " + pontuacao + "</b>");
 
@@ -484,43 +479,39 @@ function gameOver() {
 		dataType: 'JSON',
 		success: function (data) {
 
-			console.log(data[0].idRanking);
+			console.log(data[9].pontuacao);
 
 			var flag = false;
-			var pontos = 0;
-			for (var i = 0; i < 10; i++) {
+			const pontos = data[9].pontuacao;
+			/*for (var i = 0; i < 10; i++) {
 
-				if (data[i].pontuacao > pontos) {
+				if (data[i].pontuacao < pontos ) {
 					pontos = data[i].pontuacao;
+					break;
 				}
-			}
-
+			}*/
+			console.log('Pontos'+pontos);
 			if (pontuacao > pontos) {
 				$('#incRanking').append('<table><tr><td><input type="text" style="font-size: 14px!important;" class="form-control" id="nomeRanking"></td><td><span style="width: 20px !important; height: 10px !important; font-size: 26px;" onclick="salvaRanking(' + pontuacao + ')" class="bnt btn-success">Salvar</span></td></tr></table>');
-				for (var i = 0; i < 10; i++) {
-					$('#tbody').append('<tr>' +
-						'<td><span>' + (parseInt(i) + 1) + '</span></td>' +
-						'<td><span>' + data[i].nomeJogador + '</span></td>' +
-						'<td><span>' + data[i].pontuacao + '</span></td>' +
-						'</tr>');
-				}
 			} else {
-				for (var i = 0; i < 10; i++) {
-					$('#tbody').append('<tr>' +
-						'<td><span>' + (parseInt(i) + 1) + '</span></td>' +
-						'<td><span>' + data[i].nomeJogador + '</span></td>' +
-						'<td><span>' + data[i].pontuacao + '</span></td>' +
-						'</tr>');
-				}
 			}
+			$('#pontuacao > p').remove();
 
+			$('#pontuacao').append("<p>Sua pontuação: " + localStorage.getItem("pontuacao") + "</p>");
+			$("#dadosRanking").hide();
 			$('#ranking').show();
 			console.log(pontuacao);
 			console.log(pontos);
 		},
 	})
+	$("#bntNovoJogo").hide();
+
 	//fim();
 }
+$("#bntReinicia").click(function (){
+		document.location.reload(true);
+	}
+);
 
 function fechamodal() {
 	$('#ranking').hide();
@@ -564,7 +555,6 @@ function salvaRanking(pontuacao) {
 		success: function (data) {
 			alert("Nome inserido com sucesso!")
 			$('#nomeRanking').val('');
-			window.open('https://brunnocruzf.github.io/jogo-forca_front/ranking/');
 			fechamodal();
 		},
 	})
