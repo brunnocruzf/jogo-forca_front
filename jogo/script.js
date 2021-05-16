@@ -469,14 +469,14 @@ function letrasorteada() {
 		if (result != null) {
 			acertos++;
 
-			for(var j =0; j < c; j ++){
+			for(var j =0; j < 100; j ++){
 				if(string == letras[j] ){
 					console.log("erro");
 					var result2 = '';
 					result2 += characters.charAt(Math.floor(Math.random() * charactersLength));
 					string = result2.toUpperCase();
 					console.log("letra sorteada mudada: " + string);
-					j=0;
+					j=-1;
 				}
 			}
 				if(string != letras[j]){
