@@ -86,7 +86,11 @@
                     document.location.reload(true);
                 },
                 error: function () {
-                    alert("Erro ao salvar.");
+                    if(pass.length < 4 ){
+                        alert("Erro: Senha deve ser maior que 4 caracteres..");
+                    }else{
+                        alert("Erro ao salvar.");
+                    }
                 },
                 processData: false,
                 type: 'POST',
