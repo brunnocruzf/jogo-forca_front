@@ -278,7 +278,6 @@ function buscaPalavra() {
 					console.log("valor de i"+i);
 					buscaPalavra();
 					if(i==40){
-						alert("Você jogou todas as palavras cadastradas nessa categoria. OK para repetir palavras.")
 						todasPerguntas = [];
 					}
 				} else {
@@ -305,7 +304,6 @@ function buscaPalavra() {
 					console.log("valor de i"+i);
 					buscaPalavra();
 					if(i==40){
-						alert("Você jogou todas as palavras cadastradas nessa categoria. OK para repetir palavras.")
 						todasPerguntas = [];
 					}
 				} else {
