@@ -262,7 +262,7 @@ $("#bntNovoJogo").click(function zeraCampos() {
 
 
 });
-
+var i=0;
 function buscaPalavra() {
 	var categoria = $('#select').val();
 	if (categoria == '000') {
@@ -274,7 +274,13 @@ function buscaPalavra() {
 			dataType: 'json',
 			success: function (data) {
 				if (!todasPerguntas.includes(data['palavra'])) {
+					i++;
+					console.log("valor de i"+i);
 					buscaPalavra();
+					if(i==40){
+						alert("Você jogou todas as palavras cadastradas nessa categoria. OK para repetir palavras.")
+						todasPerguntas = [];
+					}
 				} else {
 					var resposta = new Array();
 					localStorage.setItem("resposta", data['palavra']);
@@ -295,8 +301,13 @@ function buscaPalavra() {
 			dataType: 'json',
 			success: function (data) {
 				if (todasPerguntas.includes(data['palavra'])) {
+					i++;
+					console.log("valor de i"+i);
 					buscaPalavra();
-					console.log('buscou outra');
+					if(i==40){
+						alert("Você jogou todas as palavras cadastradas nessa categoria. OK para repetir palavras.")
+						todasPerguntas = [];
+					}
 				} else {
 					var resposta = new Array();
 					localStorage.setItem("resposta", data['palavra']);
