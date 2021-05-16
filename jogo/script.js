@@ -10,6 +10,11 @@ var acertos;
 var evento;
 var c =0;
 var visivel = [];
+var diferente = [];
+var desa = 199;
+var habi = 200;
+var desc = 200;
+
 
 var aluno = new Array();
 aluno[1] = "";
@@ -351,7 +356,7 @@ function fase() {
 		$("#numTentativas").text("Tentativas: " + tentativas);
 	}
 	//habilita botao diferencial
-	if(pontuacao >= 200){
+	if(pontuacao >= habi){
 		bntCompra.disabled = false;
 		window.document.getElementById("bntCompra").style.background = "#8CAEEC";
 	}
@@ -400,6 +405,8 @@ function preencheLacuna() {
 				if (entrada == respostaAtual.charAt(i)) {
 					$("#l" + i).val(respostaAtual.charAt(letraInformada));
 					acertoLetra++;
+					visivel[c] = respostaAtual.charAt(i);
+					c++;
 				}
 			}
 			acertos = acertos + acertoLetra - 1;
@@ -416,27 +423,24 @@ function preencheLacuna() {
 				gameOver();
 			}
 		}
-		
 	}
 }
 
 function diferencial(){
 	var pontuacao = localStorage.getItem("pontuacao");
 
-	
-
 	$("#mensagem").removeClass("erro");
 	$("#mensagem").text(msg[9]).show().addClass("sucesso");
 
 	//desconta pontuacao caso use diferencial
-	pontuacao = (parseInt(pontuacao) - parseInt(200));
+	pontuacao = (parseInt(pontuacao) - parseInt(desc));
 	localStorage.setItem("pontuacao", pontuacao);
 
 	$('#pontuacao > p').remove();
 
 	$('#pontuacao').append('<p>Sua Pontuação: ' + localStorage.getItem("pontuacao") + '</p>')
 	//desabilita botao
-	if(pontuacao <= 199){
+	if(pontuacao <= desa){
 		bntCompra.disabled = true;
 		window.document.getElementById("bntCompra").style.background = "#B3BFD4";
 	}
@@ -444,14 +448,15 @@ function diferencial(){
 }
 
 function letrasorteada() {
-	
 	var qntLetras = respostaAtual.length;
 	var result           = '';
 	var characters       = localStorage.getItem("resposta");
 	var charactersLength = characters.length;
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
-
 	var string = result.toUpperCase();
+
+	var palavra = respostaAtual;
+	var letras = todasLetras;
 	console.log("letra sorteada: " + string);
 
 	if (ganhou) {
@@ -459,38 +464,33 @@ function letrasorteada() {
 			$("#l" + i).val(respostaAtual.charAt(i));
 		}
 	}else{
-	
 		var acertoLetra = 0;
-		var teste = '';
 		
 		if (result != null) {
 			acertos++;
 
 			for(var j =0; j < c; j ++){
-				
-				if(string == visivel[j] ){
+				if(string == letras[j] ){
 					console.log("erro");
 					var result2 = '';
 					result2 += characters.charAt(Math.floor(Math.random() * charactersLength));
 					string = result2.toUpperCase();
 					console.log("letra sorteada mudada: " + string);
-					
+					j=0;
 				}
 			}
-				if(string != visivel[j]){
+				if(string != letras[j]){
 					for (var i = 0; i <= qntLetras; i++) {
 						if (string == respostaAtual.charAt(i)) {
 							$("#l" + i).val(respostaAtual.charAt(i));
-							
+							acertoLetra++;
 							visivel[c] = respostaAtual.charAt(i);	
 						}
 					}
 				}
 			}
-			acertoLetra++;
+			
 			c++;
-			console.log("letras visiveis: " + visivel);
-			console.log("valor de c: " + c);
 
 			acertos = acertos + acertoLetra - 1;
 
@@ -518,6 +518,7 @@ function letrasorteada() {
 			}
 		}
 	}
+	console.log(acertos);
 }
 
 function elementosHabilitados() {
@@ -632,7 +633,10 @@ function vitoria() {
 	//desabilita diferencial
 	bntCompra.disabled = true;
 	window.document.getElementById("bntCompra").style.background = "#B3BFD4";
-
+	visivel = [];
+	diferente = [];
+	c = 0;
+	//console.clear();
 	//fim();
 }
 
