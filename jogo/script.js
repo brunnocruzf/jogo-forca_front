@@ -277,7 +277,7 @@ function buscaPalavra() {
 					i++;
 					console.log("valor de i"+i);
 					buscaPalavra();
-					if(i==30){
+					if(i == 25){
 						todasPerguntas = [];
 					}
 				} else {
@@ -303,7 +303,7 @@ function buscaPalavra() {
 					i++;
 					console.log("valor de i"+i);
 					buscaPalavra();
-					if(i == 30){
+					if(i == 25){
 						todasPerguntas = [];
 					}
 				} else {
