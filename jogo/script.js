@@ -262,7 +262,9 @@ $("#bntNovoJogo").click(function zeraCampos() {
 
 
 });
+
 var i=0;
+
 function buscaPalavra() {
 	var categoria = $('#select').val();
 	if (categoria == '000') {
@@ -274,7 +276,7 @@ function buscaPalavra() {
 			dataType: 'json',
 			success: function (data) {
 				//verifica se palavra ja foi usada
-				if (!todasPerguntas.includes(data['palavra'])) {
+				if (todasPerguntas.includes(data['palavra'])) {
 					// adiciona mais 1 no contador
 					i++;
 					console.log("valor de i"+i);
