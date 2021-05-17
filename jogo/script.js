@@ -310,6 +310,7 @@ function buscaPalavra() {
 					buscaPalavra();
 					if(i == 25){
 						todasPerguntas = [];
+						i = 0;
 					}
 				} else {
 					var resposta = new Array();
