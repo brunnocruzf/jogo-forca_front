@@ -57,6 +57,8 @@
 
                    </tbody>
                </table>
+                <a href="javascript:history.back()"><span class="btn btn-danger" style="float: right; margin-left: 10px">Cancelar</span></a>
+                <span class="btn btn-success" id="salvar" style="float: right;">Salvar</span>
             </div>
         </div>
     </div>
@@ -108,19 +110,75 @@
                     //altarr para preencher select
 
                     data['palavras'].forEach(function (fn, scope) {
-                        $('#tbody').append('<tr>' +
-                                                '<td>'+fn['descricao']+'</td>' +
-                                                '<td>' +
-                                                        fn['categoria']['descricao']+
-                                                '</td>'+
-                                                '<td><a href="#"><span data-placement="top" data-toggle="tooltip" title="Excluir">' +
-                                                    '<i class="fa fa-trash" aria-hidden="true"></i></span></a>' +
+                        $('#tbody').append('<tr id="remover'+fn['id']+'">' +
+                                                '<td hidden id="' + fn['id'] + 'id"><span hidden>' + fn['id'] + '</span></td>' +
+                                                '<td id="' + fn['id'] + 'palavra"><input class="form-control" id="' + fn['id'] + 'palavraSPN" disabled value="' + fn['descricao'] + '"></td>' +
+                                                '<td id="' + fn['id'] + 'categoria"><select disabled class="form-control" class="select" id="' + fn['id'] + 'categoriaSPN"><option value="'+fn['categoria']['id']+'">' +
+                                                fn['categoria']['descricao'] +
+                                                '</option></select></td>' +
+                                                '<td><a href="#"><div data-placement="top" data-toggle="tooltip" title="Excluir">' +
+                                                    '<i class="fa fa-trash" onclick="remover('+fn['id']+')" aria-hidden="true"></i></div></a>' +
                                                 '</td>' +
                                             '</tr>');
                     });
                 },
             })
         });
+
+        $('#salvar').on('click', function () {
+
+            var valores = document.querySelectorAll("table tr td select option:checked");
+            var idcat = $('option:checked');
+            var val = $('input');
+            var id = document.querySelectorAll("table tr td span");
+            // var idcat = document.querySelectorAll("table tr td p");
+
+
+            var idpalav;
+            var catpalav;
+            var descpalav;
+            var palav = new Array();
+
+
+            var palavras = {};
+
+            for (i = 0; i < id.length; i++) {
+                for (i = 0; i < val.length; i++) {
+                    for (i = 0; i < valores.length; i++) {
+                        for (i = 0; i < idcat.length; i++) {
+                            palav.push({'id': id[i].innerHTML, 'descricao': val[i].value, 'categoria': {"id": idcat[i].value, "descricao": valores[i].innerHTML}});
+                        }
+                    }
+                }
+            }
+            palavras = palav;
+
+            //var palavras;
+            var edit = {palavras};
+            console.log(JSON.stringify(edit));
+            //esperando correção do bug para ajustar
+
+            $.ajax({
+                contentType: 'application/json',
+                data: JSON.stringify(edit),
+                dataType: 'json',
+                success: function(data){
+                    alert("Salvo com sucesso.");
+                    document.location.reload(true);
+                },
+                error: function(){
+                    alert("Erro ao salvar.");
+                },
+                processData: false,
+                type: 'POST',
+                url: 'https://jogo-forca.herokuapp.com/palavras'
+            });
+        })
+
+
+        function remover(id){
+            $('#remover'+id).remove();
+        }
 
         function logout() {
             localStorage.removeItem("usuario");

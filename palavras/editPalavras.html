@@ -130,49 +130,61 @@
             var idcat = $('option:checked');
             var val = $('input');
             var id = document.querySelectorAll("table tr td span");
-           // var idcat = document.querySelectorAll("table tr td p");
+            var palav = new Array();
+            var palavraValida = true;
 
 
-          var idpalav;
-          var catpalav;
-          var descpalav;
-          var palav = new Array();
+            
+            loop1:
+            for (i = 0; i < id.length; i++) {
+                loop2:
+                for (i = 0; i < val.length; i++) {
+                    loop3:
+                    for (i = 0; i < valores.length; i++) {
+                        loop4:
+                        for (i = 0; i < idcat.length; i++) {
 
+                            if (val[i].value == "") {
+                                alert("Palavra inválida.");
+                                palavraValida = false;
+                                break loop1;
+                            }
 
-          var palavras = {};
+                            palav.push({'id': id[i].innerHTML, 'descricao': val[i].value, 'categoria': {"id": idcat[i].value, "descricao": valores[i].innerHTML}});
+                        
+                        }
+                    }
+                }
 
-          for (i = 0; i < id.length; i++) {
-                  for (i = 0; i < val.length; i++) {
-                      for (i = 0; i < valores.length; i++) {
-                          for (i = 0; i < idcat.length; i++) {
-                              palav.push({'id': id[i].innerHTML, 'descricao': val[i].value, 'categoria': {"id": idcat[i].value, "descricao": valores[i].innerHTML}});
-                          }
-                      }
-                  }
-              }
-            palavras = palav;
+            }
 
-          //var palavras;
+            if(palavraValida) {
+
+                var palavras = {};
+                palavras = palav;
+              
                 var edit = {palavras};
                 console.log(JSON.stringify(edit));
-            //esperando correção do bug para ajustar
-/*
-            $.ajax({
-                contentType: 'application/json',
-                data: JSON.stringify(edit),
-                dataType: 'json',
-                success: function(data){
-                    console.log("Salvo com sucesso.");
-                },
-                error: function(){
-                    console.log("Erro ao salvar.");
-                },
-                processData: false,
-                type: 'POST',
-                url: 'https://jogo-forca.herokuapp.com/palavras'
-            });
+    
+                $.ajax({
+                    contentType: 'application/json',
+                    data: JSON.stringify(edit),
+                    dataType: 'json',
+                    success: function(data){
+                        alert("Salvo com sucesso.");
+                        document.location.reload(true);
+                    },
+                    error: function(){
+                        alert("Erro ao salvar.");
+                    },
+                    processData: false,
+                    type: 'POST',
+                    url: 'https://jogo-forca.herokuapp.com/palavras'
+                });
 
-            document.location.reload(true);*/
+            }
+
+            
         })
 
         function habilita(id) {

@@ -1,112 +1,130 @@
 <head>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js'></script>
 </head>
 <!-- Última versão CSS compilada e minificada -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" rel="stylesheet">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" rel="stylesheet">
 
 <nav class="navbar navbar-default">
-  <meta charset="utf-8">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="../dashbord.html">Dashbord de Administração</a>
-    </div>
-    <ul class="nav navbar-nav navbar-right" style="margin-right: 2.5%;">
-      <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="username"></a>
-        <ul class="dropdown-menu">
-          <li><a href="#" onclick="logout()">Logout</a></li>
+    <meta charset="utf-8">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button aria-expanded="false" class="navbar-toggle collapsed" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="../dashbord.html">Dashbord de Administração</a>
+        </div>
+        <ul class="nav navbar-nav navbar-right" style="margin-right: 2.5%;">
+            <li class="dropdown">
+                <a aria-expanded="false" aria-haspopup="true" class="dropdown-toggle" data-toggle="dropdown" href="#" id="username" role="button"></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#" onclick="logout()">Logout</a></li>
+                </ul>
+            </li>
         </ul>
-      </li>
-    </ul>
-  </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
+    </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
 </nav>
 <div style="margin-right: 35%; margin-left: 35%;">
-  <div class="panel panel-default">
-    <div class="panel-heading">TITULO
-      <a href="javascript:history.back()">
-                    <span class="badge badge-pill badge-danger" style="float: right; background-color: #d9534f !important; margin-left: 10px" data-toggle="tooltip" data-placement="top" title="Voltar">
-                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+    <div class="panel panel-default">
+        <div class="panel-heading">Exclir Usuário Administrador
+            <a href="javascript:history.back()">
+                    <span class="badge badge-pill badge-danger" data-placement="top" data-toggle="tooltip" style="float: right; background-color: #d9534f !important; margin-left: 10px" title="Voltar">
+                        <i aria-hidden="true" class="fa fa-arrow-left"></i>
                     </span>
-      </a>
-    </div>
-    <div class="panel-body">
+            </a>
+        </div>
+        <div class="panel-body">
+            <div style="margin-left: 10px; margin-right: 10px; ">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Nome do Usuário</th>
+                        <th scope="col">Senha</th>
+                        <th scope="col">Ação</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbody">
 
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-  </div>
-  <script language="javascript" type="text/javascript">
+    <script language="javascript" type="text/javascript">
 
-    function send() {
-      event.preventDefault()
-      $.ajax({
-        url: 'https://jogo-forca.herokuapp.com/categorias',
-        type: "get",
-        scriptCharset: 'UTF-8',
-        crossDomain: true,
-        dataType: 'json',
-        success: function (data) {
-          //var myJSON = JSON.stringify(data);
-          if (data["sucesso"] == false) {
-            $("#mensagem").append('<div class="alert alert-danger">' + data["mensagem"] + '</div>');
-          } else if (data["sucesso"] == true) {
-            localStorage.setItem("usuario", username);
-            window.location.href = "dashbord.html";
-          }
-          ;
+
+        $(window).on('load', function () {
+            localStorage.setItem("a", 0);
+            event.preventDefault();
+            $.ajax({
+                url: 'https://jogo-forca.herokuapp.com/adm/list',
+                type: "get",
+                scriptCharset: 'UTF-8',
+                crossDomain: true,
+                dataType: 'json',
+                success: function (data) {
+                    //var myJSON = JSON.stringify(data);
+                    //altarr para preencher select
+
+                    data.forEach(function (fn, scope) {
+                        $('#tbody').append('<tr>' +
+                            '<td hidden id="' + fn['idAdministrador'] + 'id"><span hidden>' + fn['idAdministrador'] + '</span></td>' +
+                            '<td><input type="text" class="form-control" id="' + fn['idAdministrador'] + 'username" disabled value="' + fn['username'] + '"></td>' +
+                            '<td><input type="password" class="form-control" id="' + fn['idAdministrador'] + 'pass" disabled value="' + fn['password'] + '"></td>' +
+                            '<td id="troca' + fn['idAdministrador'] + '"><a id="habilita' + fn['idAdministrador'] + '" href="#"><div data-placement="top" data-toggle="tooltip" onclick="excluir(' + fn['idAdministrador'] + ')" title="Excluir">' +
+                            '<i class="fa fa-trash" aria-hidden="true"></i></div></a>' +
+                            '</td>' +
+                            '</tr>');
+                    });
+                },
+            })
+        });
+
+        function excluir(id) {
+            $.ajax({
+                url: 'https://jogo-forca.herokuapp.com/adm/delete/'+id,
+                type: "DELETE",
+                scriptCharset: 'UTF-8',
+                crossDomain: true,
+                dataType: 'json',
+                success: function () {
+
+                },
+                error: function () {
+                  alert("Excluido com sucesso.");
+                  document.location.reload(true);
+                }
+            });
         }
-      });
-    }
 
-    $(window).on('load',
+        $(window).on('load',
             function () {
-              var username = localStorage.getItem("usuario");
-              if (username != null) {
-                $("#username").text(username);
-                $("#username").append('<div class="caret"></div>');
+                var username = localStorage.getItem("usuario");
+                if (username != null) {
+                    $("#username").text(username);
+                    $("#username").append('<div class="caret"></div>');
 
-              } else {
-                window.location.href = "../";
-              }
+                } else {
+                    window.location.href = "../";
+                }
             });
 
-    $(window).on('load', function () {
-      event.preventDefault()
-      $.ajax({
-        url: 'https://jogo-forca.herokuapp.com/categorias',
-        type: "get",
-        scriptCharset: 'UTF-8',
-        crossDomain: true,
-        dataType: 'json',
-        success: function (data) {
-          //var myJSON = JSON.stringify(data);
-          //altarr para preencher select
+        function logout() {
+            localStorage.removeItem("usuario");
+            window.location.href = "../";
+        }
 
-          data['categorias'].forEach(function (fn, scope) {
-            $('#categoria').append('<option value="' + fn['id'] + '">' + fn['descricao'] + '</option>');
-          });
-        },
-      })
-    });
-
-    function logout() {
-      localStorage.removeItem("usuario");
-      window.location.href = "../";
-    }
-
-    $(document).ready(function () {
-      $('[data-toggle="tooltip"]').tooltip();
-    });
-  </script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
