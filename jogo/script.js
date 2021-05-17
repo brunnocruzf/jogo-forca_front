@@ -165,7 +165,7 @@ $("#bntGeraJogador").click(function gerarJogador() {
     $("#faseAtual").text("Fase " + faseAtual);
     $("#numTentativas").text("Tentativas: " + tentativas);
 
-    $("#imagem").css("width", "7%");
+    $("#imagem").remove();
 
     $('#imgForca').show();
 
