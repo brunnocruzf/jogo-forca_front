@@ -273,12 +273,17 @@ function buscaPalavra() {
 			crossDomain: true,
 			dataType: 'json',
 			success: function (data) {
+				//verifica se palavra ja foi usada
 				if (!todasPerguntas.includes(data['palavra'])) {
+					// adiciona mais 1 no contador
 					i++;
 					console.log("valor de i"+i);
+					//busca nova palavra
 					buscaPalavra();
+					// se 25 tentativas zera o contatador e o array que armazena palavras usadas
 					if(i == 25){
 						todasPerguntas = [];
+						i=0;
 					}
 				} else {
 					var resposta = new Array();
