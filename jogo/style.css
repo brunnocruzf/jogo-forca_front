@@ -31,7 +31,8 @@ body{
 }
 
 #exibeRanking{
-	margin-top: -15%;
+	display: table;
+	margin-top: 6%;
 	height: 150px;
 	width: 40%;
 	font-size: 30px !important;
