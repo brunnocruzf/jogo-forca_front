@@ -23,7 +23,7 @@ body{
 }
 
 #bntGeraJogador{
-	margin-top: 6%;
+	margin-top: 3%;
 	height: 150px;
 	width: 40%;
 	font-size: 30px !important;
@@ -32,7 +32,7 @@ body{
 
 #exibeRanking{
 	display: table;
-	margin-top: 6%;
+	margin-top: 3%;
 	height: 150px;
 	width: 40%;
 	font-size: 30px !important;
